@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Heart, CalendarDays, Music, BookOpen, Baby, Utensils, Globe, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import Layout from "@/components/Layout";
 
 const Events = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const events = [
     {
@@ -84,16 +89,14 @@ const Events = () => {
   ];
 
   const categories = [
-    { name: "All Events", value: "all", color: "bg-primary" },
-    { name: "Special Service", value: "Special Service", color: "bg-sanctuary" },
-    { name: "Youth", value: "Youth", color: "bg-worship" },
-    { name: "Workshop", value: "Workshop", color: "bg-blessing" },
-    { name: "Outreach", value: "Outreach", color: "bg-secondary" },
-    { name: "Fellowship", value: "Fellowship", color: "bg-accent" },
-    { name: "Prayer", value: "Prayer", color: "bg-muted" }
+    { name: "All Events", value: "all", color: "bg-primary", icon: CalendarDays },
+    { name: "Special Service", value: "Special Service", color: "bg-sanctuary", icon: Zap },
+    { name: "Youth", value: "Youth", color: "bg-worship", icon: Baby },
+    { name: "Workshop", value: "Workshop", color: "bg-blessing", icon: BookOpen },
+    { name: "Outreach", value: "Outreach", color: "bg-secondary", icon: Globe },
+    { name: "Fellowship", value: "Fellowship", color: "bg-accent", icon: Utensils },
+    { name: "Prayer", value: "Prayer", color: "bg-muted", icon: Heart }
   ];
-
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const filteredEvents = selectedCategory === "all" 
     ? events 
@@ -115,6 +118,11 @@ const Events = () => {
   const getCategoryColor = (category: string) => {
     const cat = categories.find(c => c.value === category);
     return cat ? cat.color : "bg-primary";
+  };
+
+  const getCategoryIcon = (category: string) => {
+    const cat = categories.find(c => c.value === category);
+    return cat ? cat.icon : CalendarDays;
   };
 
   return (
@@ -204,91 +212,232 @@ const Events = () => {
         </section>
       )}
 
-      {/* Category Filter */}
+      {/* Calendar Navigation & Filter */}
       <section className="py-12 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-playfair font-bold text-foreground mb-6">
-              Browse by Category
-            </h2>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {categories.map((category) => (
-                <Button
-                  key={category.value}
-                  variant={selectedCategory === category.value ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category.value)}
-                  className={selectedCategory === category.value ? `${category.color} text-white` : ""}
-                >
-                  {category.name}
-                </Button>
-              ))}
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            
+            {/* Calendar Widget */}
+            <div className="w-full lg:w-auto">
+              <h2 className="text-2xl font-playfair font-bold text-foreground mb-6">
+                Select Date
+              </h2>
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full sm:w-64 lg:w-80 justify-start text-left font-normal bg-card",
+                        !selectedDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarDays className="mr-2 h-4 w-4" />
+                      {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 bg-card border shadow-lg z-50" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      initialFocus
+                      className="p-3 pointer-events-auto bg-card"
+                    />
+                  </PopoverContent>
+                </Popover>
+                
+                {selectedDate && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedDate(undefined)}
+                    className="w-full sm:w-auto lg:w-full"
+                  >
+                    Clear Date Filter
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex-1 w-full">
+              <h2 className="text-2xl font-playfair font-bold text-foreground mb-6">
+                Browse by Category
+              </h2>
+              
+              {/* Mobile: Dropdown, Desktop: Grid */}
+              <div className="block sm:hidden">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between bg-card">
+                      <div className="flex items-center space-x-2">
+                        {(() => {
+                          const category = categories.find(c => c.value === selectedCategory);
+                          const IconComponent = category?.icon || CalendarDays;
+                          return (
+                            <>
+                              <IconComponent className="h-4 w-4" />
+                              <span>{category?.name || "All Events"}</span>
+                            </>
+                          );
+                        })()}
+                      </div>
+                      <ChevronLeft className="h-4 w-4 rotate-90" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-2 bg-card border shadow-lg z-50">
+                    <div className="grid grid-cols-1 gap-1">
+                      {categories.map((category) => {
+                        const IconComponent = category.icon;
+                        return (
+                          <Button
+                            key={category.value}
+                            variant={selectedCategory === category.value ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setSelectedCategory(category.value)}
+                            className={cn(
+                              "justify-start space-x-2",
+                              selectedCategory === category.value ? `${category.color} text-white` : ""
+                            )}
+                          >
+                            <IconComponent className="h-4 w-4" />
+                            <span>{category.name}</span>
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Desktop: Grid Layout */}
+              <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+                {categories.map((category) => {
+                  const IconComponent = category.icon;
+                  return (
+                    <Button
+                      key={category.value}
+                      variant={selectedCategory === category.value ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedCategory(category.value)}
+                      className={cn(
+                        "flex flex-col items-center space-y-1 h-auto py-3 px-2",
+                        selectedCategory === category.value ? `${category.color} text-white` : "hover:bg-accent/50"
+                      )}
+                    >
+                      <IconComponent className="h-5 w-5" />
+                      <span className="text-xs text-center leading-tight">{category.name}</span>
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Events Grid */}
+      {/* Enhanced Events Grid */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredEvents.length === 0 || upcomingEvents.length === 0 ? (
             <div className="text-center py-12">
+              <CalendarDays className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
               <p className="text-lg text-muted-foreground">
                 No events found in this category.
               </p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => setSelectedCategory("all")}
+              >
+                View All Events
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {upcomingEvents.map((event) => (
-                <Card key={event.id} className="group hover:shadow-lg smooth-transition">
-                  <div className="relative">
-                    <div className={`h-32 ${getCategoryColor(event.category)} flex items-center justify-center text-white rounded-t-lg`}>
-                      <div className="text-center">
-                        <Calendar className="h-8 w-8 mx-auto mb-2" />
-                        <p className="text-sm font-medium">{event.category}</p>
+              {upcomingEvents.map((event) => {
+                const IconComponent = getCategoryIcon(event.category);
+                return (
+                  <Card 
+                    key={event.id} 
+                    className="group hover:shadow-2xl hover:-translate-y-2 smooth-transition duration-300 cursor-pointer overflow-hidden"
+                  >
+                    <div className="relative overflow-hidden">
+                      <div className={`h-32 ${getCategoryColor(event.category)} flex items-center justify-center text-white rounded-t-lg group-hover:scale-110 smooth-transition duration-500`}>
+                        <div className="text-center relative z-10">
+                          <IconComponent className="h-8 w-8 mx-auto mb-2 group-hover:scale-125 smooth-transition duration-300" />
+                          <p className="text-sm font-medium">{event.category}</p>
+                        </div>
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 smooth-transition duration-300" />
                       </div>
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-6 space-y-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground group-hover:text-primary smooth-transition mb-2">
-                        {event.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">
-                        {event.description}
-                      </p>
-                    </div>
-                    
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-primary" />
-                        <span className="font-medium">{formatDate(event.date)}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Clock className="h-4 w-4 text-primary" />
-                        <span>{event.time}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <MapPin className="h-4 w-4 text-primary" />
-                        <span>{event.location}</span>
-                      </div>
+                      
+                      {/* Capacity indicator */}
                       {event.capacity && (
-                        <div className="flex items-center space-x-2">
-                          <Users className="h-4 w-4 text-primary" />
-                          <span>{event.registered}/{event.capacity} spots</span>
+                        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-xs font-medium px-2 py-1 rounded-full">
+                          {event.registered}/{event.capacity}
                         </div>
                       )}
                     </div>
                     
-                    <div className="pt-2">
-                      <Button size="sm" className="w-full" variant="outline">
-                        Learn More & Register
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    <CardContent className="p-6 space-y-4">
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground group-hover:text-primary smooth-transition mb-2 line-clamp-2">
+                          {event.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-foreground smooth-transition">
+                          {event.description}
+                        </p>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center space-x-2 group-hover:text-primary smooth-transition">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <span className="font-medium">{formatDate(event.date)}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Clock className="h-4 w-4 text-primary" />
+                          <span>{event.time}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <MapPin className="h-4 w-4 text-primary" />
+                          <span>{event.location}</span>
+                        </div>
+                        {event.capacity && (
+                          <div className="flex items-center space-x-2">
+                            <Users className="h-4 w-4 text-primary" />
+                            <span>{event.registered}/{event.capacity} spots</span>
+                            <div className="flex-1 bg-muted rounded-full h-2 ml-2">
+                              <div 
+                                className="bg-primary rounded-full h-2 smooth-transition group-hover:bg-sanctuary"
+                                style={{ width: `${(event.registered / event.capacity) * 100}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="pt-2 space-y-2">
+                        <Button 
+                          size="sm" 
+                          className="w-full group-hover:shadow-lg smooth-transition sanctuary-gradient text-sanctuary-foreground hover:opacity-90 transform group-hover:scale-105"
+                        >
+                          <Heart className="h-3 w-3 mr-2" />
+                          Register Now
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="w-full opacity-0 group-hover:opacity-100 smooth-transition"
+                        >
+                          Learn More
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>

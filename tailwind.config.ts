@@ -61,7 +61,24 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Church-specific colors
+				sanctuary: {
+					DEFAULT: 'hsl(var(--sanctuary))',
+					foreground: 'hsl(var(--sanctuary-foreground))'
+				},
+				blessing: {
+					DEFAULT: 'hsl(var(--blessing))',
+					foreground: 'hsl(var(--blessing-foreground))'
+				},
+				worship: {
+					DEFAULT: 'hsl(var(--worship))',
+					foreground: 'hsl(var(--worship-foreground))'
 				}
+			},
+			fontFamily: {
+				'playfair': ['Playfair Display', 'serif'],
+				'inter': ['Inter', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

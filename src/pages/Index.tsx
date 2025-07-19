@@ -14,7 +14,7 @@ const Index = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        > 
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
@@ -95,7 +95,7 @@ const Index = () => {
                 Our Heart & Mission
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                For over 50 years, Heart of the Church has been a beacon of hope and love in our community. 
+                For over 20 years, Second ECWA has been a beacon of hope and love in our community. 
                 We believe in the transformative power of faith, the strength of community, and the 
                 importance of serving others with compassion and grace.
               </p>
@@ -207,7 +207,7 @@ const Index = () => {
                 "Walking in Faith, Not Fear"
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Join Pastor Michael as he explores how faith can overcome our deepest fears and 
+                Join Samuel Oyegunle as he explores how faith can overcome our deepest fears and 
                 uncertainties. Discover the peace that comes from trusting in God's perfect plan 
                 for your life.
               </p>
@@ -216,7 +216,7 @@ const Index = () => {
                   <strong>Scripture:</strong> Isaiah 41:10
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  <strong>Date:</strong> December 15, 2024
+                  <strong>Date:</strong> May 15, 2025
                 </p>
               </div>
               <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">

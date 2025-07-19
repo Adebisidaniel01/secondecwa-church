@@ -29,22 +29,22 @@ const About = () => {
 
   const leadership = [
     {
-      name: "Pastor Michael Thompson",
+      name: "Reverend Ayebulu Emmanuel",
       role: "Senior Pastor",
       description: "Leading our congregation with wisdom and compassion for over 15 years."
     },
     {
-      name: "Sarah Williams",
+      name: "Reverend Samuel Adeyemi",
       role: "Worship Director",
       description: "Inspiring hearts through music and creating meaningful worship experiences."
     },
     {
-      name: "David Chen",
+      name: "Pastor Samuel Oyegunle",
       role: "Youth Pastor",
       description: "Empowering the next generation to discover their purpose in Christ."
     },
     {
-      name: "Maria Rodriguez",
+      name: "Pastor Malik Emmanuel",
       role: "Community Outreach Coordinator",
       description: "Connecting our church with the community through service and love."
     }
@@ -57,10 +57,10 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-playfair font-bold text-foreground mb-6">
-              About Heart of the Church
+              About Second ECWA
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              For over five decades, we've been a place where faith flourishes, 
+              For over two decades, we've been a place where faith flourishes, 
               community thrives, and lives are transformed by the love of Jesus Christ.
             </p>
           </div>
@@ -77,9 +77,9 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Heart of the Church was founded in 1974 by a small group of families who shared 
+                  Second ECWA was founded in 1974 by a small group of missionaries who shared 
                   a vision of creating a church that would be the heart of the community. What started 
-                  as weekly gatherings in a living room has grown into a vibrant congregation of over 
+                  as frequent gatherings in a room has grown into a vibrant congregation of over 
                   500 members.
                 </p>
                 <p>

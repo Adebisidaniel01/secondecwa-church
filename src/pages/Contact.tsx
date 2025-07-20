@@ -17,18 +17,18 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      details: ["(555) 123-PRAY", "(555) 123-7729"],
-      link: "tel:+15551237729"
+      details: [Call],
+      link: "tel:+2348161679998, +2348033584401, +2347034205477"
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["hello@heartchurch.org", "pastor@heartchurch.org"],
-      link: "mailto:hello@heartchurch.org"
+      details: [""],
+      link: "mailto:ecwa2@yahoo.com"
     },
     {
       icon: Clock,
-      title: "Office Hours",
+      title: "Open Hours",
       details: ["Monday - Friday: 9:00 AM - 5:00 PM", "Saturday: 10:00 AM - 2:00 PM"],
       link: null
     }
@@ -38,20 +38,44 @@ const Contact = () => {
     {
       day: "Sunday",
       services: [
-        { name: "Early Service", time: "9:00 AM", type: "Traditional" },
-        { name: "Late Service", time: "11:00 AM", type: "Contemporary" }
+        { name: "Morning Service", time: "8:00 AM - 10:00AM", type: "Worship Service" },
+        { name: "Sunday School", time: "10:00AM-11:00 AM",  }
+        { name: "Baptismal Class", time: "3:00 PM", }
+        { name: "House Fellowship", time: "5:00 PM - 6:00PM", }
+      ]
+    },
+        {
+      day: "Monday",
+      services: [
+        { name: "Men Fellowship", time: "5:00PM",},
+        { name: "Women Fellowship", time: "5:00PM",  }
       ]
     },
     {
-      day: "Wednesday",
+      day: "Tuesday",
       services: [
-        { name: "Bible Study", time: "7:00 PM", type: "All Ages" }
+        { name: "Gospel Team", time: "5:00PM"}
+        ]
+    }
+    {
+      day: "Wednesday",
+      services: [ 
+        { name: "Bible Study", time: "5:00 PM - 6:00PM", type: "All Ages" }
+        { name: "Board of Elders meeting", time: "6:00PM"}
       ]
     },
+      {
+      day: "Thursday",
+      services: [
+        { name: "Hour of prayer", time: "5:00PM-6:00 PM",}
+         { name: "Sunday school preparatory class", time: "6:00-7:00 PM",}
+      ]
+    }
+  ]
     {
       day: "Friday",
       services: [
-        { name: "Youth Group", time: "6:30 PM", type: "Ages 13-18" }
+        { name: "Youth Fellowship Meeting", time: "5:00 PM", }
       ]
     }
   ];
@@ -175,7 +199,7 @@ const Contact = () => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone (Optional)</Label>
-                  <Input id="phone" type="tel" placeholder="(555) 123-4567" />
+                  <Input id="phone" type="tel" placeholder="(234) 1234567890 " />
                 </div>
                 
                 <div className="space-y-2">
@@ -205,14 +229,10 @@ const Contact = () => {
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">
                   Find Us
                 </h2>
-                <p className="text-muted-foreground">
-                  We're located in the heart of Grace City, easily accessible 
-                  with plenty of parking available.
-                </p>
               </div>
               
               <div className="relative h-96 bg-muted rounded-2xl overflow-hidden">
-                {/* Placeholder for map - in a real implementation, you'd use Google Maps or similar */}
+                {https://www.google.com/maps/dir//20+Micheal+Ibru,+Amilegbe+Rd,+Oko+Erin/@8.4948171,4.4830178,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x1036535990572d5f:0x6c82c3c0ecc8972f!2m2!1d4.5654197!2d8.4948257?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="h-16 w-16 text-primary mx-auto mb-4" />
@@ -224,16 +244,6 @@ const Contact = () => {
                 </div>
               </div>
               
-              <Card className="p-6 blessing-shadow">
-                <CardContent className="space-y-4">
-                  <h3 className="text-lg font-semibold">Directions</h3>
-                  <div className="space-y-2 text-muted-foreground text-sm">
-                    <p>From Downtown: Take Main Street north for 2 miles, turn right on Faith Street.</p>
-                    <p>From Highway 101: Exit at Grace City Blvd, follow signs to downtown, then Faith Street.</p>
-                    <p>Parking: Free parking available in our main lot and street parking on Sundays.</p>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>

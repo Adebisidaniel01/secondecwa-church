@@ -48,34 +48,34 @@ const Contact = () => {
       day: "Monday",
       services: [
         { name: "Men Fellowship", time: "5:00PM",},
-        { name: "Women Fellowship", time: "5:00PM",  }
+        { name: "Women Fellowship", time: "5:00PM",  },
       ]
     },
     {
       day: "Tuesday",
       services: [
-        { name: "Gospel Team", time: "5:00PM"}
+        { name: "Gospel Team", time: "5:00PM"},
         ]
-    }
+    },
     {
       day: "Wednesday",
       services: [ 
-        { name: "Bible Study", time: "5:00 PM - 6:00PM", type: "All Ages" }
-        { name: "Board of Elders meeting", time: "6:00PM"}
+        { name: "Bible Study", time: "5:00 PM - 6:00PM", type: "All Ages" },
+        { name: "Board of Elders meeting", time: "6:00PM"},
       ]
     },
       {
       day: "Thursday",
       services: [
-        { name: "Hour of prayer", time: "5:00PM-6:00 PM",}
-         { name: "Sunday school preparatory class", time: "6:00-7:00 PM",}
+        { name: "Hour of prayer", time: "5:00PM-6:00 PM",},
+         { name: "Sunday school preparatory class", time: "6:00-7:00 PM",},
       ]
     }
   ]
     {
       day: "Friday",
       services: [
-        { name: "Youth Fellowship Meeting", time: "5:00 PM", }
+        { name: "Youth Fellowship Meeting", time: "5:00 PM", },
       ]
     }
   ];

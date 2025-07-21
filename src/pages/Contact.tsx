@@ -39,7 +39,7 @@ const Contact = () => {
       day: "Sunday",
       services: [
         { name: "Morning Service", time: "8:00 AM - 10:00AM", type: "Worship Service" },
-        { name: "Sunday School", time: "10:00AM-11:00 AM",  }
+        { name: "Sunday School", time: "10:00AM-11:00 AM",  },
         { name: "Baptismal Class", time: "3:00 PM", }
         { name: "House Fellowship", time: "5:00 PM - 6:00PM", }
       ]

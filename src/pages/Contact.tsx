@@ -12,13 +12,13 @@ const Contact = () => {
       icon: MapPin,
       title: "Address",
       details: ["20 Micheal Ibru, Amilegbe Rd, Oko Erin"],
-      link: "https://www.google.com/maps/dir//20+Micheal+Ibru,+Amilegbe+Rd,+Oko+Erin/@8.4948171,4.4830178,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x1036535990572d5f:0x6c82c3c0ecc8972f!2m2!1d4.5654197!2d8.4948257?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"
+      link: {https://www.google.com/maps/dir//20+Micheal+Ibru,+Amilegbe+Rd,+Oko+Erin/@8.4948171,4.4830178,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x1036535990572d5f:0x6c82c3c0ecc8972f!2m2!1d4.5654197!2d8.4948257?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D}
     },
     {
       icon: Phone,
       title: "Phone",
       details: [Call],
-      link: "tel:+2348161679998, +2348033584401, +2347034205477"
+      link: ["+2348161679998", "+2348033584401", "+2347034205477"]
     },
     {
       icon: Mail,
@@ -75,7 +75,7 @@ const Contact = () => {
     {
       day: "Friday",
       services: [
-        { name: "Youth Fellowship Meeting", time: "5:00 PM", },
+        { name: "Youth Fellowship Meeting", time: "5:00 PM" }
       ]
     }
   ];

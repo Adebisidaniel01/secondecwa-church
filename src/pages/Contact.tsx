@@ -74,7 +74,7 @@ const Contact = () => {
     {
       day: "Friday",
       services: [
-{ name: "Youth Fellowship Meeting", time: "5:00 PM", type: "Fellowship" },
+        { name: "Youth Fellowship Meeting", time: "5:00 PM", type: "Fellowship" },
       ]
     },
   ];

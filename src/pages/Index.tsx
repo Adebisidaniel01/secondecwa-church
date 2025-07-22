@@ -1,4 +1,4 @@
-import { Calendar, Clock, Users, BookOpen, MapPin, Play, ArrowRight } from "lucide-react";
+import { Calendar, Clock, Users, BookOpen, MapPin, Play, ArrowRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";

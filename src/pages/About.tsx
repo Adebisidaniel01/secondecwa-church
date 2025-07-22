@@ -1,4 +1,4 @@
-import { Users, Globe, HandHeart } from "lucide-react";
+import { Users, Globe, HandHeart, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";

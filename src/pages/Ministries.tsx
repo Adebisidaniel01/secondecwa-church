@@ -88,7 +88,7 @@ const Ministries = () => {
       id: 7,
       name: "Prison Ministry",
       description: "Creating a welcoming atmosphere for all who enter our church doors, ensuring everyone feels valued and cared for.",
-      icon: Cage,
+      icon: Heart,
       ageGroup: "All Ages",
       meetingTime: "As needed",
       location: "Various",

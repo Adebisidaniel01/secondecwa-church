@@ -1,4 +1,4 @@
-import { Heart, Users, Globe, HandHeart } from "lucide-react";
+import { Users, Globe, HandHeart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";
@@ -29,12 +29,12 @@ const About = () => {
 
   const leadership = [
     {
-      name: "Reverend Ayebulu Emmanuel",
+      name: "Reverend Dr. Ayebulu Emmanuel",
       role: "Senior Pastor",
       description: "Leading our congregation with wisdom and compassion for over 15 years."
     },
     {
-      name: "Reverend Samuel Adeyemi",
+      name: "Reverend Oluwafemi Adeyemi",
       role: "Worship Director",
       description: "Inspiring hearts through music and creating meaningful worship experiences."
     },
@@ -44,7 +44,7 @@ const About = () => {
       description: "Empowering the next generation to discover their purpose in Christ."
     },
     {
-      name: "Pastor Malik Emmanuel",
+      name: "Pastor Alabi Malik ",
       role: "Community Outreach Coordinator",
       description: "Connecting our church with the community through service and love."
     }

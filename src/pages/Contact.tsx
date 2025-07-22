@@ -234,7 +234,7 @@ const Contact = () => {
                 </h2>
               </div>
 
-              <div className="relative h-96 bg-muted rounded-2xl overflow-hidden">
+              <div className="h-96 bg-muted rounded-2xl overflow-hidden shadow-lg">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3939.879749761366!2d4.5654197!3d8.4948171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1036535990572d5f%3A0x6c82c3c0ecc8972f!2s20%20Micheal%20Ibru%2C%20Amilegbe%20Rd%2C%20Oko%20Erin!5e0!3m2!1sen!2sng!4v1700000000000"
                   width="100%"
@@ -243,16 +243,22 @@ const Contact = () => {
                   allowFullScreen={true}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
+                  title="Second ECWA Church Location"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-16 w-16 text-primary mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">Interactive Map</h3>
-                    <p className="text-muted-foreground">
-                      <a href="https://www.google.com/maps/dir//20+Micheal+Ibru,+Amilegbe+Rd,+Oko+Erin/@8.4948171,4.4830178,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x1036535990572d5f:0x6c82c3c0ecc8972f!2m2!1d4.5654197!2d8.4948171" target="_blank" rel="noopener noreferrer">Click to view in Google Maps</a>
-                    </p>
-                  </div>
-                </div>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-muted-foreground mb-2">
+                  Can't see the map? 
+                  <a 
+                    href="https://www.google.com/maps/dir//20+Micheal+Ibru,+Amilegbe+Rd,+Oko+Erin/@8.4948171,4.4830178,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x1036535990572d5f:0x6c82c3c0ecc8972f!2m2!1d4.5654197!2d8.4948171" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 smooth-transition ml-1"
+                  >
+                    Open in Google Maps
+                  </a>
+                </p>
               </div>
             </div>
           </div>

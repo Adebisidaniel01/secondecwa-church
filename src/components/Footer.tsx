@@ -1,5 +1,6 @@
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Heart } from "lucide-react";
+import { Phone, Mail, MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SocialLinks from "@/components/SocialLinks";
 
 const Footer = () => {
   return (
@@ -68,17 +69,7 @@ const Footer = () => {
             
             <div className="pt-4">
               <h5 className="text-sm font-medium mb-3">Follow Us</h5>
-              <div className="flex space-x-3">
-                <Button variant="ghost" size="sm" className="h-10 w-10 p-0 hover:bg-white/10">
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-10 w-10 p-0 hover:bg-white/10">
-                  <Instagram className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-10 w-10 p-0 hover:bg-white/10">
-                  <Youtube className="h-4 w-4" />
-                </Button>
-              </div>
+              <SocialLinks variant="footer" size="md" />
             </div>
           </div>
         </div>

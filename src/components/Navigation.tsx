@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Cross, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import SocialLinks from "@/components/SocialLinks";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,10 +53,13 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
-            <Button variant="default" className="ml-4 sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
-              <Heart className="h-4 w-4 mr-2" />
-              Give
-            </Button>
+            <div className="flex items-center space-x-3 ml-4">
+              <SocialLinks variant="header" size="sm" className="hidden lg:flex" />
+              <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
+                <Heart className="h-4 w-4 mr-2" />
+                Give
+              </Button>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -90,10 +94,13 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
-              <Button variant="default" className="mx-4 mt-2 sanctuary-gradient text-sanctuary-foreground">
-                <Heart className="h-4 w-4 mr-2" />
-                Give
-              </Button>
+              <div className="mx-4 mt-4 space-y-4">
+                <SocialLinks variant="header" size="sm" />
+                <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
+                  <Heart className="h-4 w-4 mr-2" />
+                  Give
+                </Button>
+              </div>
             </div>
           </div>
         )}

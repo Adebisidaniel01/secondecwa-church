@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import Layout from "@/components/Layout";
+import SocialLinks from "@/components/SocialLinks";
 
 const Events = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -457,9 +458,10 @@ const Events = () => {
             <Button size="lg" className="worship-gradient text-worship-foreground hover:opacity-90">
               Subscribe to Newsletter
             </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Follow on Social Media
-            </Button>
+            <div className="space-y-4">
+              <SocialLinks variant="contact" size="md" className="justify-center" />
+              <p className="text-sm text-muted-foreground">Follow us for updates</p>
+            </div>
           </div>
         </div>
       </section>

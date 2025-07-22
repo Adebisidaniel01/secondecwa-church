@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Layout from "@/components/Layout";
+import SocialLinks from "@/components/SocialLinks";
 
 const Contact = () => {
   const contactInfo = [
@@ -275,9 +276,19 @@ const Contact = () => {
             Our prayer team is here for you. Submit a confidential prayer request
             and know that our community is lifting you up in prayer.
           </p>
-          <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            Submit Prayer Request
-          </Button>
+          <div className="space-y-6">
+            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              Submit Prayer Request
+            </Button>
+            
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">Connect With Us</h3>
+              <p className="text-muted-foreground text-sm">
+                Follow us on social media to stay updated with our latest events, sermons, and community activities.
+              </p>
+              <SocialLinks variant="contact" size="lg" className="justify-center" />
+            </div>
+          </div>
         </div>
       </section>
     </Layout>

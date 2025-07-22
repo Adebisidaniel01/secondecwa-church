@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Cross, Heart } from "lucide-react";
+import { Menu, X, Cross, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +30,7 @@ const Navigation = () => {
             </div>
             <div>
               <h1 className="text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition">
-                Heart of the Church
+                Second ECWA Church 
               </h1>
               <p className="text-xs text-muted-foreground">Where Faith Meets Community</p>
             </div>

@@ -33,7 +33,7 @@ const Navigation = () => {
               <h1 className="text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition">
                 Second ECWA Church 
               </h1>
-              <p className="text-xs text-muted-foreground">Where Faith Meets Community</p>
+              <p className="text-xs text-muted-foreground">Faith, hope & Love.</p>
             </div>
           </Link>
 

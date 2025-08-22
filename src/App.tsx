@@ -9,6 +9,8 @@ import Contact from "./pages/Contact";
 import Sermons from "./pages/Sermons";
 import Events from "./pages/Events";
 import Ministries from "./pages/Ministries";
+import Videos from "./pages/Videos";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,7 +27,9 @@ const App = () => (
           <Route path="/sermons" element={<Sermons />} />
           <Route path="/events" element={<Events />} />
           <Route path="/ministries" element={<Ministries />} />
+          <Route path="/videos" element={<Videos />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

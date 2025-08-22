@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_settings: {
+        Row: {
+          created_at: string
+          id: string
+          password_hash: string
+          session_expires_at: string | null
+          session_token: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          password_hash: string
+          session_expires_at?: string | null
+          session_token?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          password_hash?: string
+          session_expires_at?: string | null
+          session_token?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration: number | null
+          file_size: number | null
+          file_url: string
+          id: string
+          is_featured: boolean | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          upload_date: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          file_size?: number | null
+          file_url: string
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          upload_date?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          upload_date?: string
+        }
+        Relationships: []
+      }
+      youtube_settings: {
+        Row: {
+          api_key: string | null
+          channel_id: string | null
+          channel_name: string | null
+          created_at: string
+          id: string
+          is_live: boolean | null
+          live_stream_key: string | null
+          updated_at: string
+        }
+        Insert: {
+          api_key?: string | null
+          channel_id?: string | null
+          channel_name?: string | null
+          created_at?: string
+          id?: string
+          is_live?: boolean | null
+          live_stream_key?: string | null
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string | null
+          channel_id?: string | null
+          channel_name?: string | null
+          created_at?: string
+          id?: string
+          is_live?: boolean | null
+          live_stream_key?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

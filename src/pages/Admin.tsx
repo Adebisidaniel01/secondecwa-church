@@ -8,8 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, Play, Square, Settings, Video, Youtube } from "lucide-react";
+import { Upload, Play, Square, Settings, Video, Youtube, BarChart, Users, FileText, LogOut } from "lucide-react";
 import Layout from "@/components/Layout";
+import YouTubeLive from "@/components/YouTubeLive";
 
 interface Video {
   id: string;
@@ -331,25 +332,106 @@ const Admin = () => {
     );
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("admin_token");
+    setIsAuthenticated(false);
+    setToken("");
+    setPassword("");
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
+
   return (
     <Layout>
       <div className="container mx-auto py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Developer Dashboard</h1>
-          <div className="flex gap-2">
+          <div className="flex gap-4 items-center">
             {youtubeSettings && (
               <Badge variant={youtubeSettings.is_live ? "destructive" : "secondary"}>
                 {youtubeSettings.is_live ? "🔴 LIVE" : "⚫ OFFLINE"}
               </Badge>
             )}
+            <Button variant="outline" size="sm" onClick={handleLogout} className="flex items-center gap-2">
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
           </div>
         </div>
 
-        <Tabs defaultValue="videos" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="videos">Videos</TabsTrigger>
-            <TabsTrigger value="youtube">YouTube</TabsTrigger>
-            <TabsTrigger value="live">Go Live</TabsTrigger>
+        {/* Dashboard Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Total Videos</p>
+                  <p className="text-2xl font-bold">{videos.length}</p>
+                </div>
+                <Video className="h-8 w-8 text-primary" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">YouTube Status</p>
+                  <p className="text-2xl font-bold">{youtubeSettings?.is_live ? "LIVE" : "OFFLINE"}</p>
+                </div>
+                <Youtube className="h-8 w-8 text-red-600" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Channel</p>
+                  <p className="text-sm font-semibold truncate">{youtubeSettings?.channel_name || "Not Connected"}</p>
+                </div>
+                <Settings className="h-8 w-8 text-muted-foreground" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Quick Action</p>
+                  <p className="text-sm text-muted-foreground">Go Live</p>
+                </div>
+                <Play className="h-8 w-8 text-green-600" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* YouTube Live Component */}
+        <div className="mb-8">
+          <YouTubeLive />
+        </div>
+
+        <Tabs defaultValue="live" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="live" className="flex items-center gap-2">
+              <Play className="h-4 w-4" />
+              Go Live
+            </TabsTrigger>
+            <TabsTrigger value="videos" className="flex items-center gap-2">
+              <Video className="h-4 w-4" />
+              Videos
+            </TabsTrigger>
+            <TabsTrigger value="youtube" className="flex items-center gap-2">
+              <Youtube className="h-4 w-4" />
+              YouTube Settings
+            </TabsTrigger>
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <BarChart className="h-4 w-4" />
+              Analytics
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="videos" className="space-y-6">
@@ -486,62 +568,153 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="live" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Youtube className="h-5 w-5" />
-                  Live Streaming
-                </CardTitle>
-                <CardDescription>
-                  {youtubeSettings?.channel_name 
-                    ? `Connected to: ${youtubeSettings.channel_name}`
-                    : "Configure YouTube settings first"
-                  }
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="live-title">Stream Title</Label>
-                  <Input
-                    id="live-title"
-                    value={liveTitle}
-                    onChange={(e) => setLiveTitle(e.target.value)}
-                    placeholder="Sunday Service - Live Stream"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="live-description">Stream Description</Label>
-                  <Textarea
-                    id="live-description"
-                    value={liveDescription}
-                    onChange={(e) => setLiveDescription(e.target.value)}
-                    placeholder="Join us for our live Sunday service..."
-                  />
-                </div>
-                <div className="flex gap-2">
-                  {!youtubeSettings?.is_live ? (
-                    <Button 
-                      onClick={handleGoLive} 
-                      disabled={loading || !youtubeSettings}
-                      className="flex items-center gap-2"
-                    >
-                      <Play className="h-4 w-4" />
-                      {loading ? "Starting..." : "Go Live"}
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={handleStopLive} 
-                      disabled={loading}
-                      variant="destructive"
-                      className="flex items-center gap-2"
-                    >
-                      <Square className="h-4 w-4" />
-                      {loading ? "Stopping..." : "Stop Live Stream"}
-                    </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Go Live Card */}
+              <Card className="border-2 border-red-200 bg-red-50/50 dark:border-red-800 dark:bg-red-900/10">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                    <Play className="h-5 w-5" />
+                    Go Live Now
+                  </CardTitle>
+                  <CardDescription>
+                    {youtubeSettings?.channel_name 
+                      ? `Ready to broadcast to: ${youtubeSettings.channel_name}`
+                      : "Configure YouTube settings first to go live"
+                    }
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="live-title">Stream Title</Label>
+                    <Input
+                      id="live-title"
+                      value={liveTitle}
+                      onChange={(e) => setLiveTitle(e.target.value)}
+                      placeholder="Sunday Service - Live Stream"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="live-description">Stream Description</Label>
+                    <Textarea
+                      id="live-description"
+                      value={liveDescription}
+                      onChange={(e) => setLiveDescription(e.target.value)}
+                      placeholder="Join us for our live Sunday service..."
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    {!youtubeSettings?.is_live ? (
+                      <Button 
+                        onClick={handleGoLive} 
+                        disabled={loading || !youtubeSettings}
+                        className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white"
+                        size="lg"
+                      >
+                        <Play className="h-5 w-5" />
+                        {loading ? "Starting..." : "Go Live"}
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={handleStopLive} 
+                        disabled={loading}
+                        variant="destructive"
+                        className="flex items-center gap-2"
+                        size="lg"
+                      >
+                        <Square className="h-5 w-5" />
+                        {loading ? "Stopping..." : "Stop Live Stream"}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Live Status Card */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Youtube className="h-5 w-5 text-red-600" />
+                    Live Stream Status
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Badge variant={youtubeSettings?.is_live ? "destructive" : "secondary"} className="text-sm">
+                      {youtubeSettings?.is_live ? "🔴 LIVE NOW" : "⚫ OFFLINE"}
+                    </Badge>
+                  </div>
+                  {youtubeSettings?.channel_name && (
+                    <div>
+                      <p className="text-sm font-medium">Channel:</p>
+                      <p className="text-muted-foreground">{youtubeSettings.channel_name}</p>
+                    </div>
                   )}
-                </div>
-              </CardContent>
-            </Card>
+                  {youtubeSettings?.is_live && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                      <p className="text-sm text-red-700 dark:text-red-300">
+                        🔴 Your stream is currently live! Viewers can watch on YouTube.
+                      </p>
+                    </div>
+                  )}
+                  {!youtubeSettings?.is_live && (
+                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-muted-foreground">
+                        Ready to go live when you are. Make sure your streaming software is configured with your stream key.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart className="h-5 w-5" />
+                    Site Analytics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">Monitor your website performance and visitor analytics.</p>
+                  <Button variant="outline" className="w-full">
+                    View Analytics
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5" />
+                    User Management
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">Manage website users and permissions.</p>
+                  <Button variant="outline" className="w-full">
+                    Manage Users
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Content Management
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">Edit pages, sermons, and other website content.</p>
+                  <Button variant="outline" className="w-full">
+                    Edit Content
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -1,17 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Play, Calendar, Search, Filter, Download, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import sermonImage from "@/assets/sermon-scene.jpg";
 
 const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSeries, setSelectedSeries] = useState("all");
+  const [sermons, setSermons] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const sermons = [
+  useEffect(() => {
+    fetchSermons();
+  }, []);
+
+  const fetchSermons = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('sermons')
+        .select('*')
+        .order('date', { ascending: false });
+
+      if (error) throw error;
+      
+      setSermons(data || []);
+    } catch (error) {
+      console.error('Error fetching sermons:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const defaultSermons = [
     {
       id: 1,
       title: "Walking in Faith, Not Fear",
@@ -86,6 +110,26 @@ const Sermons = () => {
     }
   ];
 
+  // Use fetched sermons if available, otherwise use default data
+  const displaySermons = sermons.length > 0 ? sermons.map(sermon => ({
+    id: sermon.id,
+    title: sermon.title,
+    speaker: sermon.speaker,
+    date: new Date(sermon.date).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
+    series: sermon.series || 'General',
+    scripture: sermon.scripture,
+    duration: `${sermon.duration} min`,
+    description: sermon.description,
+    image: sermonImage,
+    featured: sermon.is_featured,
+    audio_url: sermon.audio_url,
+    video_url: sermon.video_url
+  })) : defaultSermons;
+
   const series = [
     { value: "all", label: "All Series" },
     { value: "faith-over-fear", label: "Faith Over Fear" },
@@ -93,7 +137,7 @@ const Sermons = () => {
     { value: "heart-of-love", label: "Heart of Love" }
   ];
 
-  const filteredSermons = sermons.filter(sermon => {
+  const filteredSermons = displaySermons.filter(sermon => {
     const matchesSearch = sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          sermon.speaker.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          sermon.scripture.toLowerCase().includes(searchTerm.toLowerCase());
@@ -102,7 +146,7 @@ const Sermons = () => {
     return matchesSearch && matchesSeries;
   });
 
-  const featuredSermon = sermons.find(sermon => sermon.featured);
+  const featuredSermon = displaySermons.find(sermon => sermon.featured);
   const recentSermons = filteredSermons.filter(sermon => !sermon.featured);
 
   return (
@@ -234,7 +278,20 @@ const Sermons = () => {
       {/* Sermon Grid */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredSermons.length === 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="h-48 bg-muted rounded-t-lg"></div>
+                  <CardContent className="p-6 space-y-4">
+                    <div className="h-4 bg-muted rounded w-3/4"></div>
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-8 bg-muted rounded"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : filteredSermons.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-lg text-muted-foreground">
                 No sermons found matching your search criteria.

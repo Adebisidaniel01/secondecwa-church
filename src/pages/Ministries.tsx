@@ -1,10 +1,105 @@
+import { useState, useEffect } from "react";
 import { Users, Heart, BookOpen, Music, Utensils, Globe, Baby, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 
 const Ministries = () => {
-  const ministries = [
+  const { toast } = useToast();
+  const [ministries, setMinistries] = useState<any[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isVolunteering, setIsVolunteering] = useState(false);
+  const [selectedMinistry, setSelectedMinistry] = useState<any>(null);
+  const [volunteerForm, setVolunteerForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    position: '',
+    emergencyContact: '',
+    emergencyPhone: ''
+  });
+
+  useEffect(() => {
+    fetchMinistriesAndActivities();
+  }, []);
+
+  const fetchMinistriesAndActivities = async () => {
+    try {
+      const [ministriesResponse, activitiesResponse] = await Promise.all([
+        supabase
+          .from('ministries')
+          .select('*')
+          .eq('is_active', true)
+          .order('name'),
+        supabase
+          .from('ministry_activities')
+          .select('*, ministries(name)')
+      ]);
+
+      if (ministriesResponse.error) throw ministriesResponse.error;
+      if (activitiesResponse.error) throw activitiesResponse.error;
+
+      setMinistries(ministriesResponse.data || []);
+      setActivities(activitiesResponse.data || []);
+    } catch (error) {
+      console.error('Error fetching ministries:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVolunteerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedMinistry) return;
+
+    setIsVolunteering(true);
+
+    try {
+      const { error } = await supabase.functions.invoke('ministry-volunteer', {
+        body: {
+          ministryId: selectedMinistry.id,
+          ...volunteerForm
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Volunteer registration successful!",
+        description: `Thank you for volunteering with ${selectedMinistry.name}.`,
+      });
+
+      setVolunteerForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        position: '',
+        emergencyContact: '',
+        emergencyPhone: ''
+      });
+      setSelectedMinistry(null);
+    } catch (error: any) {
+      console.error('Error registering volunteer:', error);
+      toast({
+        title: "Registration failed",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsVolunteering(false);
+    }
+  };
+
+  const defaultMinistries = [
     {
       id: 1,
       name: "Youth Ministry",
@@ -99,8 +194,28 @@ const Ministries = () => {
     }
   ];
 
-  const featuredMinistry = ministries.find(ministry => ministry.featured);
-  const otherMinistries = ministries.filter(ministry => !ministry.featured);
+  // Use fetched ministries if available, otherwise use default data
+  const displayMinistries = ministries.length > 0 ? ministries.map(ministry => ({
+    ...ministry,
+    activities: activities
+      .filter(activity => activity.ministry_id === ministry.id)
+      .map(activity => activity.activity_name),
+    icon: getMinistryIcon(ministry.category)
+  })) : defaultMinistries;
+
+  const featuredMinistry = displayMinistries.find(ministry => ministry.is_featured || ministry.featured);
+  const otherMinistries = displayMinistries.filter(ministry => !(ministry.is_featured || ministry.featured));
+
+  const getMinistryIcon = (category: string) => {
+    switch (category?.toLowerCase()) {
+      case 'youth': return Users;
+      case 'children': return Baby;
+      case 'worship': return Music;
+      case 'outreach': return Globe;
+      case 'fellowship': return Heart;
+      default: return Users;
+    }
+  };
 
   return (
     <Layout>
@@ -187,9 +302,97 @@ const Ministries = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Button size="lg" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
-                        Get Involved
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button 
+                            size="lg" 
+                            className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90"
+                            onClick={() => setSelectedMinistry(featuredMinistry)}
+                          >
+                            Get Involved
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Volunteer for {featuredMinistry?.name}</DialogTitle>
+                            <DialogDescription>
+                              Fill out the form below to volunteer with this ministry.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form onSubmit={handleVolunteerSubmit} className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="firstName">First Name</Label>
+                                <Input
+                                  id="firstName"
+                                  value={volunteerForm.firstName}
+                                  onChange={(e) => setVolunteerForm(prev => ({ ...prev, firstName: e.target.value }))}
+                                  required
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input
+                                  id="lastName"
+                                  value={volunteerForm.lastName}
+                                  onChange={(e) => setVolunteerForm(prev => ({ ...prev, lastName: e.target.value }))}
+                                  required
+                                />
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="email">Email</Label>
+                              <Input
+                                id="email"
+                                type="email"
+                                value={volunteerForm.email}
+                                onChange={(e) => setVolunteerForm(prev => ({ ...prev, email: e.target.value }))}
+                                required
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="phone">Phone</Label>
+                              <Input
+                                id="phone"
+                                type="tel"
+                                value={volunteerForm.phone}
+                                onChange={(e) => setVolunteerForm(prev => ({ ...prev, phone: e.target.value }))}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="position">Preferred Position/Role</Label>
+                              <Input
+                                id="position"
+                                value={volunteerForm.position}
+                                onChange={(e) => setVolunteerForm(prev => ({ ...prev, position: e.target.value }))}
+                                placeholder="e.g., Team Member, Assistant, etc."
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="emergencyContact">Emergency Contact</Label>
+                                <Input
+                                  id="emergencyContact"
+                                  value={volunteerForm.emergencyContact}
+                                  onChange={(e) => setVolunteerForm(prev => ({ ...prev, emergencyContact: e.target.value }))}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="emergencyPhone">Emergency Phone</Label>
+                                <Input
+                                  id="emergencyPhone"
+                                  type="tel"
+                                  value={volunteerForm.emergencyPhone}
+                                  onChange={(e) => setVolunteerForm(prev => ({ ...prev, emergencyPhone: e.target.value }))}
+                                />
+                              </div>
+                            </div>
+                            <Button type="submit" className="w-full" disabled={isVolunteering}>
+                              {isVolunteering ? 'Submitting...' : 'Submit Volunteer Application'}
+                            </Button>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
                       <Button size="lg" variant="outline">
                         Contact Leader
                       </Button>
@@ -264,9 +467,18 @@ const Ministries = () => {
                       )}
                     </div>
                     
-                    <Button size="sm" variant="outline" className="w-full">
-                      Learn More
-                    </Button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="w-full"
+                          onClick={() => setSelectedMinistry(ministry)}
+                        >
+                          Volunteer
+                        </Button>
+                      </DialogTrigger>
+                    </Dialog>
                   </div>
                 </CardContent>
               </Card>

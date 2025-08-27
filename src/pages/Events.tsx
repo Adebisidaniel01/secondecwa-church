@@ -1,20 +1,105 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Heart, CalendarDays, Music, BookOpen, Baby, Utensils, Globe, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import SocialLinks from "@/components/SocialLinks";
 
 const Events = () => {
+  const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [registrationForm, setRegistrationForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    specialNeeds: '',
+    emergencyContact: '',
+    emergencyPhone: ''
+  });
 
-  const events = [
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .eq('is_active', true)
+        .order('date', { ascending: true });
+
+      if (error) throw error;
+      
+      setEvents(data || []);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEventRegistration = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedEvent) return;
+
+    setIsRegistering(true);
+
+    try {
+      const { error } = await supabase.functions.invoke('event-registration', {
+        body: {
+          eventId: selectedEvent.id,
+          ...registrationForm
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Registration successful!",
+        description: `You've been registered for ${selectedEvent.title}.`,
+      });
+
+      setRegistrationForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        specialNeeds: '',
+        emergencyContact: '',
+        emergencyPhone: ''
+      });
+      setSelectedEvent(null);
+    } catch (error: any) {
+      console.error('Error registering for event:', error);
+      toast({
+        title: "Registration failed",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  const defaultEvents = [
     {
       id: 1,
       title: "Christmas Eve Candlelight Service",
@@ -25,7 +110,9 @@ const Events = () => {
       description: "Join us for a beautiful candlelight service as we celebrate the birth of our Savior. This intimate worship experience includes carols, scripture readings, and the lighting of candles.",
       capacity: 300,
       registered: 45,
-      featured: true
+      featured: true,
+      registration_required: true,
+      registration_deadline: null
     },
     {
       id: 2,
@@ -37,7 +124,9 @@ const Events = () => {
       description: "Start the new year with prayer and fasting. Join us for a day of seeking God's guidance and blessing for the year ahead.",
       capacity: 50,
       registered: 23,
-      featured: false
+      featured: false,
+      registration_required: true,
+      registration_deadline: null
     },
     {
       id: 3,
@@ -49,7 +138,9 @@ const Events = () => {
       description: "A weekend of fun, fellowship, and spiritual growth for our youth. Activities include worship, games, workshops, and outdoor adventures.",
       capacity: 40,
       registered: 28,
-      featured: false
+      featured: false,
+      registration_required: true,
+      registration_deadline: null
     },
     {
       id: 4,
@@ -61,7 +152,9 @@ const Events = () => {
       description: "Strengthen your marriage with practical tools and biblical principles. Includes lunch and childcare.",
       capacity: 30,
       registered: 18,
-      featured: false
+      featured: false,
+      registration_required: true,
+      registration_deadline: null
     },
     {
       id: 5,
@@ -73,7 +166,9 @@ const Events = () => {
       description: "Help us serve our community by helping in house chores and community cleaning.",
       capacity: null,
       registered: 35,
-      featured: false
+      featured: false,
+      registration_required: false,
+      registration_deadline: null
     },
     {
       id: 6,
@@ -85,9 +180,31 @@ const Events = () => {
       description: "Celebrate in the presence of the Lord. Enjoy great music, prayer sessions, and fellowship with other members.",
       capacity: 60,
       registered: 42,
-      featured: false
+      featured: false,
+      registration_required: false,
+      registration_deadline: null
     }
   ];
+
+  // Use fetched events if available, otherwise use default data
+  const displayEvents = events.length > 0 ? events.map(event => ({
+    id: event.id,
+    title: event.title,
+    date: event.date,
+    time: event.start_time && event.end_time 
+      ? `${new Date(`1970-01-01T${event.start_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(`1970-01-01T${event.end_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+      : event.start_time
+      ? new Date(`1970-01-01T${event.start_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : 'Time TBD',
+    location: event.location,
+    category: event.category,
+    description: event.description,
+    capacity: event.capacity,
+    registered: 0, // Would need to count registrations
+    featured: event.is_featured,
+    registration_required: event.registration_required,
+    registration_deadline: event.registration_deadline
+  })) : defaultEvents;
 
   const categories = [
     { name: "All Events", value: "all", color: "bg-primary", icon: CalendarDays },
@@ -100,10 +217,10 @@ const Events = () => {
   ];
 
   const filteredEvents = selectedCategory === "all" 
-    ? events 
-    : events.filter(event => event.category === selectedCategory);
+    ? displayEvents 
+    : displayEvents.filter(event => event.category === selectedCategory);
 
-  const featuredEvent = events.find(event => event.featured);
+  const featuredEvent = displayEvents.find(event => event.featured);
   const upcomingEvents = filteredEvents.filter(event => !event.featured);
 
   const formatDate = (dateString: string) => {
@@ -201,10 +318,101 @@ const Events = () => {
                       )}
                     </div>
 
-                    <Button size="lg" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
-                      <Heart className="h-5 w-5 mr-2" />
-                      Register Now
-                    </Button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button 
+                          size="lg" 
+                          className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90"
+                          onClick={() => setSelectedEvent(featuredEvent)}
+                          disabled={!featuredEvent?.registration_required}
+                        >
+                          <Heart className="h-5 w-5 mr-2" />
+                          {featuredEvent?.registration_required ? 'Register Now' : 'Learn More'}
+                        </Button>
+                      </DialogTrigger>
+                      {featuredEvent?.registration_required && (
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Register for {featuredEvent.title}</DialogTitle>
+                            <DialogDescription>
+                              Fill out the form below to register for this event.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form onSubmit={handleEventRegistration} className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="firstName">First Name</Label>
+                                <Input
+                                  id="firstName"
+                                  value={registrationForm.firstName}
+                                  onChange={(e) => setRegistrationForm(prev => ({ ...prev, firstName: e.target.value }))}
+                                  required
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input
+                                  id="lastName"
+                                  value={registrationForm.lastName}
+                                  onChange={(e) => setRegistrationForm(prev => ({ ...prev, lastName: e.target.value }))}
+                                  required
+                                />
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="email">Email</Label>
+                              <Input
+                                id="email"
+                                type="email"
+                                value={registrationForm.email}
+                                onChange={(e) => setRegistrationForm(prev => ({ ...prev, email: e.target.value }))}
+                                required
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="phone">Phone</Label>
+                              <Input
+                                id="phone"
+                                type="tel"
+                                value={registrationForm.phone}
+                                onChange={(e) => setRegistrationForm(prev => ({ ...prev, phone: e.target.value }))}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="specialNeeds">Special Needs/Accommodations</Label>
+                              <Textarea
+                                id="specialNeeds"
+                                value={registrationForm.specialNeeds}
+                                onChange={(e) => setRegistrationForm(prev => ({ ...prev, specialNeeds: e.target.value }))}
+                                placeholder="Any special accommodations needed?"
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="emergencyContact">Emergency Contact</Label>
+                                <Input
+                                  id="emergencyContact"
+                                  value={registrationForm.emergencyContact}
+                                  onChange={(e) => setRegistrationForm(prev => ({ ...prev, emergencyContact: e.target.value }))}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="emergencyPhone">Emergency Phone</Label>
+                                <Input
+                                  id="emergencyPhone"
+                                  type="tel"
+                                  value={registrationForm.emergencyPhone}
+                                  onChange={(e) => setRegistrationForm(prev => ({ ...prev, emergencyPhone: e.target.value }))}
+                                />
+                              </div>
+                            </div>
+                            <Button type="submit" className="w-full" disabled={isRegistering}>
+                              {isRegistering ? 'Registering...' : 'Complete Registration'}
+                            </Button>
+                          </form>
+                        </DialogContent>
+                      )}
+                    </Dialog>
                   </div>
                 </div>
               </div>

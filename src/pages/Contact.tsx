@@ -1,13 +1,108 @@
+import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import SocialLinks from "@/components/SocialLinks";
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false);
+  const [isSubmittingPrayer, setIsSubmittingPrayer] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
+  const [prayerForm, setPrayerForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    request: '',
+    isUrgent: false,
+    isConfidential: false
+  });
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingContact(true);
+
+    try {
+      const { error } = await supabase.functions.invoke('contact-form', {
+        body: contactForm
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      setContactForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingContact(false);
+    }
+  };
+
+  const handlePrayerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingPrayer(true);
+
+    try {
+      const { error } = await supabase.functions.invoke('prayer-request', {
+        body: prayerForm
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Prayer request submitted!",
+        description: "Our prayer team will lift you up in prayer.",
+      });
+
+      setPrayerForm({
+        name: '',
+        email: '',
+        phone: '',
+        request: '',
+        isUrgent: false,
+        isConfidential: false
+      });
+    } catch (error) {
+      console.error('Error submitting prayer request:', error);
+      toast({
+        title: "Error submitting prayer request",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingPrayer(false);
+    }
+  };
+
   const contactInfo = [
     {
       icon: MapPin,
@@ -184,45 +279,84 @@ const Contact = () => {
                 Fill out the form below and we'll get back to you as soon as possible.
               </p>
 
-              <form className="space-y-6">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="Your first name" />
+                    <Input 
+                      id="firstName" 
+                      value={contactForm.firstName}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, firstName: e.target.value }))}
+                      placeholder="Your first name" 
+                      required 
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Your last name" />
+                    <Input 
+                      id="lastName" 
+                      value={contactForm.lastName}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, lastName: e.target.value }))}
+                      placeholder="Your last name" 
+                      required 
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="your.email@example.com" />
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="your.email@example.com" 
+                    required 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone (Optional)</Label>
-                  <Input id="phone" type="tel" placeholder="(234) 1234567890 " />
+                  <Input 
+                    id="phone" 
+                    type="tel" 
+                    value={contactForm.phone}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
+                    placeholder="(234) 1234567890" 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="What's this about?" />
+                  <Input 
+                    id="subject" 
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
+                    placeholder="What's this about?" 
+                    required 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                     placeholder="Tell us how we can help you..."
                     className="min-h-[120px]"
+                    required
                   />
                 </div>
 
-                <Button size="lg" className="w-full worship-gradient text-worship-foreground hover:opacity-90">
+                <Button 
+                  type="submit"
+                  size="lg" 
+                  className="w-full worship-gradient text-worship-foreground hover:opacity-90"
+                  disabled={isSubmittingContact}
+                >
                   <Send className="h-5 w-5 mr-2" />
-                  Send Message
+                  {isSubmittingContact ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </div>
@@ -277,9 +411,80 @@ const Contact = () => {
             and know that our community is lifting you up in prayer.
           </p>
           <div className="space-y-6">
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Submit Prayer Request
-            </Button>
+            <form onSubmit={handlePrayerSubmit} className="space-y-4 max-w-md mx-auto">
+              <div className="space-y-2">
+                <Label htmlFor="prayerName">Name</Label>
+                <Input 
+                  id="prayerName"
+                  value={prayerForm.name}
+                  onChange={(e) => setPrayerForm(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="prayerEmail">Email (Optional)</Label>
+                  <Input 
+                    id="prayerEmail"
+                    type="email"
+                    value={prayerForm.email}
+                    onChange={(e) => setPrayerForm(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="prayerPhone">Phone (Optional)</Label>
+                  <Input 
+                    id="prayerPhone"
+                    type="tel"
+                    value={prayerForm.phone}
+                    onChange={(e) => setPrayerForm(prev => ({ ...prev, phone: e.target.value }))}
+                    placeholder="(234) 1234567890"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="prayerRequest">Prayer Request</Label>
+                <Textarea
+                  id="prayerRequest"
+                  value={prayerForm.request}
+                  onChange={(e) => setPrayerForm(prev => ({ ...prev, request: e.target.value }))}
+                  placeholder="How can we pray for you?"
+                  className="min-h-[100px]"
+                  required
+                />
+              </div>
+              <div className="flex gap-4 text-sm">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={prayerForm.isUrgent}
+                    onChange={(e) => setPrayerForm(prev => ({ ...prev, isUrgent: e.target.checked }))}
+                    className="rounded"
+                  />
+                  <span>Urgent</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={prayerForm.isConfidential}
+                    onChange={(e) => setPrayerForm(prev => ({ ...prev, isConfidential: e.target.checked }))}
+                    className="rounded"
+                  />
+                  <span>Confidential</span>
+                </label>
+              </div>
+              <Button 
+                type="submit"
+                size="lg" 
+                variant="outline" 
+                className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                disabled={isSubmittingPrayer}
+              >
+                {isSubmittingPrayer ? 'Submitting...' : 'Submit Prayer Request'}
+              </Button>
+            </form>
             
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-foreground">Connect With Us</h3>

@@ -41,6 +41,591 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          expiry_date: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean | null
+          priority: number | null
+          publish_date: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          priority?: number | null
+          publish_date?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          priority?: number | null
+          publish_date?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          message: string
+          phone: string | null
+          status: string | null
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          message: string
+          phone?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          message?: string
+          phone?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      donations: {
+        Row: {
+          amount: number
+          created_at: string
+          dedication: string | null
+          donation_type: string | null
+          donor_email: string | null
+          donor_name: string | null
+          id: string
+          is_anonymous: boolean | null
+          is_recurring: boolean | null
+          payment_method: string | null
+          recurring_frequency: string | null
+          status: string | null
+          transaction_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          dedication?: string | null
+          donation_type?: string | null
+          donor_email?: string | null
+          donor_name?: string | null
+          id?: string
+          is_anonymous?: boolean | null
+          is_recurring?: boolean | null
+          payment_method?: string | null
+          recurring_frequency?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          dedication?: string | null
+          donation_type?: string | null
+          donor_email?: string | null
+          donor_name?: string | null
+          id?: string
+          is_anonymous?: boolean | null
+          is_recurring?: boolean | null
+          payment_method?: string | null
+          recurring_frequency?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      event_registrations: {
+        Row: {
+          attendance_status: string | null
+          email: string
+          emergency_contact: string | null
+          emergency_phone: string | null
+          event_id: string
+          first_name: string
+          id: string
+          last_name: string
+          phone: string | null
+          registration_date: string
+          special_needs: string | null
+        }
+        Insert: {
+          attendance_status?: string | null
+          email: string
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          event_id: string
+          first_name: string
+          id?: string
+          last_name: string
+          phone?: string | null
+          registration_date?: string
+          special_needs?: string | null
+        }
+        Update: {
+          attendance_status?: string | null
+          email?: string
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          event_id?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          phone?: string | null
+          registration_date?: string
+          special_needs?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          capacity: number | null
+          category: string
+          contact_email: string | null
+          contact_phone: string | null
+          cost: number | null
+          created_at: string
+          date: string
+          description: string
+          end_time: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          location: string
+          registration_deadline: string | null
+          registration_required: boolean | null
+          start_time: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number | null
+          category: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          cost?: number | null
+          created_at?: string
+          date: string
+          description: string
+          end_time?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          location: string
+          registration_deadline?: string | null
+          registration_required?: boolean | null
+          start_time?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number | null
+          category?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          cost?: number | null
+          created_at?: string
+          date?: string
+          description?: string
+          end_time?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          location?: string
+          registration_deadline?: string | null
+          registration_required?: boolean | null
+          start_time?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      members: {
+        Row: {
+          address: string | null
+          baptism_date: string | null
+          confirmation_date: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string | null
+          emergency_contact: string | null
+          emergency_phone: string | null
+          family_id: string | null
+          first_name: string
+          id: string
+          last_name: string
+          membership_date: string | null
+          membership_status: string | null
+          notes: string | null
+          phone: string | null
+          photo_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          baptism_date?: string | null
+          confirmation_date?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          family_id?: string | null
+          first_name: string
+          id?: string
+          last_name: string
+          membership_date?: string | null
+          membership_status?: string | null
+          notes?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          baptism_date?: string | null
+          confirmation_date?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          family_id?: string | null
+          first_name?: string
+          id?: string
+          last_name?: string
+          membership_date?: string | null
+          membership_status?: string | null
+          notes?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ministries: {
+        Row: {
+          age_group: string | null
+          category: string | null
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          leader_email: string | null
+          leader_name: string | null
+          leader_phone: string | null
+          meeting_location: string | null
+          meeting_time: string | null
+          name: string
+          updated_at: string
+          volunteer_positions_available: number | null
+        }
+        Insert: {
+          age_group?: string | null
+          category?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          leader_email?: string | null
+          leader_name?: string | null
+          leader_phone?: string | null
+          meeting_location?: string | null
+          meeting_time?: string | null
+          name: string
+          updated_at?: string
+          volunteer_positions_available?: number | null
+        }
+        Update: {
+          age_group?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          leader_email?: string | null
+          leader_name?: string | null
+          leader_phone?: string | null
+          meeting_location?: string | null
+          meeting_time?: string | null
+          name?: string
+          updated_at?: string
+          volunteer_positions_available?: number | null
+        }
+        Relationships: []
+      }
+      ministry_activities: {
+        Row: {
+          activity_name: string
+          created_at: string
+          id: string
+          ministry_id: string
+        }
+        Insert: {
+          activity_name: string
+          created_at?: string
+          id?: string
+          ministry_id: string
+        }
+        Update: {
+          activity_name?: string
+          created_at?: string
+          id?: string
+          ministry_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ministry_activities_ministry_id_fkey"
+            columns: ["ministry_id"]
+            isOneToOne: false
+            referencedRelation: "ministries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ministry_volunteers: {
+        Row: {
+          created_at: string
+          email: string
+          emergency_contact: string | null
+          emergency_phone: string | null
+          first_name: string
+          id: string
+          is_active: boolean | null
+          last_name: string
+          ministry_id: string
+          phone: string | null
+          position: string | null
+          start_date: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          first_name: string
+          id?: string
+          is_active?: boolean | null
+          last_name: string
+          ministry_id: string
+          phone?: string | null
+          position?: string | null
+          start_date?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          emergency_contact?: string | null
+          emergency_phone?: string | null
+          first_name?: string
+          id?: string
+          is_active?: boolean | null
+          last_name?: string
+          ministry_id?: string
+          phone?: string | null
+          position?: string | null
+          start_date?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ministry_volunteers_ministry_id_fkey"
+            columns: ["ministry_id"]
+            isOneToOne: false
+            referencedRelation: "ministries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      newsletter_subscriptions: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          is_active: boolean | null
+          last_name: string | null
+          subscription_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_name?: string | null
+          subscription_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_name?: string | null
+          subscription_type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      prayer_requests: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          is_confidential: boolean | null
+          is_urgent: boolean | null
+          name: string
+          phone: string | null
+          request: string
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          is_confidential?: boolean | null
+          is_urgent?: boolean | null
+          name: string
+          phone?: string | null
+          request: string
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          is_confidential?: boolean | null
+          is_urgent?: boolean | null
+          name?: string
+          phone?: string | null
+          request?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sermons: {
+        Row: {
+          audio_url: string | null
+          created_at: string
+          date: string
+          description: string | null
+          download_count: number | null
+          duration: number | null
+          id: string
+          is_featured: boolean | null
+          notes: string | null
+          scripture: string | null
+          series: string | null
+          speaker: string
+          title: string
+          transcript: string | null
+          updated_at: string
+          video_url: string | null
+          view_count: number | null
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          download_count?: number | null
+          duration?: number | null
+          id?: string
+          is_featured?: boolean | null
+          notes?: string | null
+          scripture?: string | null
+          series?: string | null
+          speaker: string
+          title: string
+          transcript?: string | null
+          updated_at?: string
+          video_url?: string | null
+          view_count?: number | null
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          download_count?: number | null
+          duration?: number | null
+          id?: string
+          is_featured?: boolean | null
+          notes?: string | null
+          scripture?: string | null
+          series?: string | null
+          speaker?: string
+          title?: string
+          transcript?: string | null
+          updated_at?: string
+          video_url?: string | null
+          view_count?: number | null
+        }
+        Relationships: []
+      }
       videos: {
         Row: {
           created_at: string

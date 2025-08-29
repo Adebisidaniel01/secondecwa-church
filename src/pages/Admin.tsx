@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, Play, Square, Settings, Video, Youtube, BarChart, Users, FileText, LogOut, MessageSquare, Mail, Calendar, Heart, DollarSign, Megaphone, Church } from "lucide-react";
+import { Upload, Play, Square, Settings, Video, Youtube, BarChart, Users, FileText, LogOut, MessageSquare, Mail, Calendar, Heart, DollarSign, Megaphone, Church, Camera } from "lucide-react";
+import PhotoUploadAdmin from "@/components/admin/PhotoUploadAdmin";
 import Layout from "@/components/Layout";
 import YouTubeLive from "@/components/YouTubeLive";
 
@@ -510,7 +511,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart className="h-4 w-4" />
               Dashboard
@@ -530,6 +531,10 @@ const Admin = () => {
             <TabsTrigger value="ministries" className="flex items-center gap-2">
               <Church className="h-4 w-4" />
               Ministries
+            </TabsTrigger>
+            <TabsTrigger value="photos" className="flex items-center gap-2">
+              <Camera className="h-4 w-4" />
+              Photos
             </TabsTrigger>
             <TabsTrigger value="media" className="flex items-center gap-2">
               <Video className="h-4 w-4" />
@@ -792,6 +797,24 @@ const Admin = () => {
                     <p className="text-center text-muted-foreground py-8">No newsletter subscriptions yet</p>
                   )}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Photos Tab */}
+          <TabsContent value="photos" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Camera className="w-5 h-5" />
+                  Photo Gallery Management
+                </CardTitle>
+                <CardDescription>
+                  Upload and manage photos for the church gallery
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PhotoUploadAdmin />
               </CardContent>
             </Card>
           </TabsContent>

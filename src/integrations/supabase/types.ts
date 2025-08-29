@@ -527,6 +527,45 @@ export type Database = {
         }
         Relationships: []
       }
+      photos: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          file_url: string
+          id: string
+          is_featured: boolean | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          upload_date: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          file_url: string
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          upload_date?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          file_url?: string
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          upload_date?: string
+        }
+        Relationships: []
+      }
       prayer_requests: {
         Row: {
           created_at: string

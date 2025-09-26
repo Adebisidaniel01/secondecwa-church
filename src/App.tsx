@@ -11,6 +11,7 @@ import Events from "./pages/Events";
 import Ministries from "./pages/Ministries";
 import Videos from "./pages/Videos";
 import Gallery from "./pages/Gallery";
+import Give from "./pages/Give";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/ministries" element={<Ministries />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/give" element={<Give />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

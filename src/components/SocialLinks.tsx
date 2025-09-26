@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Youtube, Twitter, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SocialLinksProps {
@@ -29,20 +29,6 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
       icon: Youtube,
       color: "hover:text-red-500",
       bgColor: "hover:bg-red-500/10"
-    },
-    {
-      name: "Twitter",
-      url: "https://twitter.com/secondecwachurch",
-      icon: Twitter,
-      color: "hover:text-sky-500",
-      bgColor: "hover:bg-sky-500/10"
-    },
-    {
-      name: "LinkedIn",
-      url: "https://linkedin.com/company/secondecwachurch",
-      icon: Linkedin,
-      color: "hover:text-blue-600",
-      bgColor: "hover:bg-blue-600/10"
     }
   ];
 

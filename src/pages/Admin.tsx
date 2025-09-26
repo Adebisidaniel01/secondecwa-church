@@ -511,88 +511,88 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart className="h-4 w-4" />
-              Dashboard
+          <TabsList className="grid w-full grid-cols-3 md:grid-cols-7 gap-1">
+            <TabsTrigger value="dashboard" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <BarChart className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Dashboard</span>
             </TabsTrigger>
-            <TabsTrigger value="prayers" className="flex items-center gap-2">
-              <Heart className="h-4 w-4" />
-              Prayers
+            <TabsTrigger value="prayers" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <Heart className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Prayers</span>
             </TabsTrigger>
-            <TabsTrigger value="contacts" className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4" />
-              Contacts
+            <TabsTrigger value="contacts" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Messages</span>
             </TabsTrigger>
-            <TabsTrigger value="events" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Events
+            <TabsTrigger value="events" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Events</span>
             </TabsTrigger>
-            <TabsTrigger value="ministries" className="flex items-center gap-2">
-              <Church className="h-4 w-4" />
-              Ministries
+            <TabsTrigger value="ministries" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <Church className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Ministries</span>
             </TabsTrigger>
-            <TabsTrigger value="photos" className="flex items-center gap-2">
-              <Camera className="h-4 w-4" />
-              Photos
+            <TabsTrigger value="photos" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <Camera className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Photos</span>
             </TabsTrigger>
-            <TabsTrigger value="media" className="flex items-center gap-2">
-              <Video className="h-4 w-4" />
-              Media
+            <TabsTrigger value="media" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+              <Video className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Media</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card>
-                <CardContent className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => (document.querySelector('[value="prayers"]') as HTMLElement)?.click()}>
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Prayer Requests</p>
-                      <p className="text-2xl font-bold">{prayerRequests.length}</p>
+                      <p className="text-xs md:text-sm font-medium text-muted-foreground">Prayer Requests</p>
+                      <p className="text-xl md:text-2xl font-bold">{prayerRequests.length}</p>
                       <p className="text-xs text-muted-foreground">
                         {prayerRequests.filter(p => p.is_urgent).length} urgent
                       </p>
                     </div>
-                    <Heart className="h-8 w-8 text-primary" />
+                    <Heart className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => (document.querySelector('[value="contacts"]') as HTMLElement)?.click()}>
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Contact Messages</p>
-                      <p className="text-2xl font-bold">{contactSubmissions.length}</p>
+                      <p className="text-xs md:text-sm font-medium text-muted-foreground">Contact Messages</p>
+                      <p className="text-xl md:text-2xl font-bold">{contactSubmissions.length}</p>
                       <p className="text-xs text-muted-foreground">
                         {contactSubmissions.filter(c => c.status === 'unread').length} unread
                       </p>
                     </div>
-                    <MessageSquare className="h-8 w-8 text-primary" />
+                    <MessageSquare className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => (document.querySelector('[value="events"]') as HTMLElement)?.click()}>
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Event Registrations</p>
-                      <p className="text-2xl font-bold">{eventRegistrations.length}</p>
+                      <p className="text-xs md:text-sm font-medium text-muted-foreground">Event Registrations</p>
+                      <p className="text-xl md:text-2xl font-bold">{eventRegistrations.length}</p>
                       <p className="text-xs text-muted-foreground">All time</p>
                     </div>
-                    <Calendar className="h-8 w-8 text-primary" />
+                    <Calendar className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => (document.querySelector('[value="ministries"]') as HTMLElement)?.click()}>
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Newsletter Subscribers</p>
-                      <p className="text-2xl font-bold">{newsletterSubscriptions.filter(s => s.is_active).length}</p>
+                      <p className="text-xs md:text-sm font-medium text-muted-foreground">Newsletter Subscribers</p>
+                      <p className="text-xl md:text-2xl font-bold">{newsletterSubscriptions.filter(s => s.is_active).length}</p>
                       <p className="text-xs text-muted-foreground">Active subscribers</p>
                     </div>
-                    <Mail className="h-8 w-8 text-primary" />
+                    <Mail className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                   </div>
                 </CardContent>
               </Card>

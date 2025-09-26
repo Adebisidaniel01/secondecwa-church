@@ -58,10 +58,12 @@ const Navigation = () => {
             ))}
             <div className="flex items-center space-x-3 ml-4">
               <SocialLinks variant="header" size="sm" className="hidden lg:flex" />
-              <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
-                <Heart className="h-4 w-4 mr-2" />
-                Give
-              </Button>
+              <Link to="/give">
+                <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
+                  <Heart className="h-4 w-4 mr-2" />
+                  Give
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -99,10 +101,12 @@ const Navigation = () => {
               ))}
               <div className="mx-4 mt-4 space-y-4">
                 <SocialLinks variant="header" size="sm" />
-                <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
-                  <Heart className="h-4 w-4 mr-2" />
-                  Give
-                </Button>
+                <Link to="/give" onClick={() => setIsOpen(false)} className="w-full">
+                  <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
+                    <Heart className="h-4 w-4 mr-2" />
+                    Give
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

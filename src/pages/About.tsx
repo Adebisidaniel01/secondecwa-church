@@ -31,22 +31,26 @@ const About = () => {
     {
       name: "Reverend Dr. Ayebulu Emmanuel",
       role: "Senior Pastor",
-      description: "Leading our congregation with wisdom and compassion for over 15 years."
+      description: "Leading our congregation with wisdom and compassion for over 15 years.",
+      photoUrl: null
     },
     {
       name: "Reverend Oluwafemi Adeyemi",
       role: "Worship Director",
-      description: "Inspiring hearts through music and creating meaningful worship experiences."
+      description: "Inspiring hearts through music and creating meaningful worship experiences.",
+      photoUrl: null
     },
     {
       name: "Pastor Samuel Oyegunle",
       role: "Youth Pastor",
-      description: "Empowering the next generation to discover their purpose in Christ."
+      description: "Empowering the next generation to discover their purpose in Christ.",
+      photoUrl: null
     },
     {
       name: "Pastor Alabi Malik ",
       role: "Community Outreach Coordinator",
-      description: "Connecting our church with the community through service and love."
+      description: "Connecting our church with the community through service and love.",
+      photoUrl: null
     }
   ];
 
@@ -184,10 +188,20 @@ const About = () => {
             {leadership.map((leader, index) => (
               <Card key={index} className="text-center p-6 hover:shadow-lg smooth-transition">
                 <CardContent className="space-y-4">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary mx-auto flex items-center justify-center">
-                    <span className="text-2xl font-playfair font-bold text-white">
-                      {leader.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+                  <div className="w-24 h-24 rounded-full mx-auto overflow-hidden">
+                    {leader.photoUrl ? (
+                      <img 
+                        src={leader.photoUrl} 
+                        alt={leader.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                        <span className="text-2xl font-playfair font-bold text-white">
+                          {leader.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{leader.name}</h3>

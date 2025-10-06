@@ -99,6 +99,17 @@ const Ministries = () => {
     }
   };
 
+  const getMinistryIcon = (category: string) => {
+    switch (category?.toLowerCase()) {
+      case 'youth': return Users;
+      case 'children': return Baby;
+      case 'worship': return Music;
+      case 'outreach': return Globe;
+      case 'fellowship': return Heart;
+      default: return Users;
+    }
+  };
+
   const defaultMinistries = [
     {
       id: 1,
@@ -205,17 +216,6 @@ const Ministries = () => {
 
   const featuredMinistry = displayMinistries.find(ministry => ministry.is_featured || ministry.featured);
   const otherMinistries = displayMinistries.filter(ministry => !(ministry.is_featured || ministry.featured));
-
-  const getMinistryIcon = (category: string) => {
-    switch (category?.toLowerCase()) {
-      case 'youth': return Users;
-      case 'children': return Baby;
-      case 'worship': return Music;
-      case 'outreach': return Globe;
-      case 'fellowship': return Heart;
-      default: return Users;
-    }
-  };
 
   return (
     <Layout>

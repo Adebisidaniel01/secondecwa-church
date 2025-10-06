@@ -4,21 +4,24 @@ import { Menu, X, Cross, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import SocialLinks from "@/components/SocialLinks";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Sermons", path: "/sermons" },
-    { name: "Videos", path: "/videos" },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Events", path: "/events" },
-    { name: "Ministries", path: "/ministries" },
-    { name: "Contact", path: "/contact" },
-    { name: "Admin", path: "/admin" },
+    { name: t('nav.home'), path: "/" },
+    { name: t('nav.about'), path: "/about" },
+    { name: t('nav.sermons'), path: "/sermons" },
+    { name: t('nav.videos'), path: "/videos" },
+    { name: t('nav.gallery'), path: "/gallery" },
+    { name: t('nav.events'), path: "/events" },
+    { name: t('nav.ministries'), path: "/ministries" },
+    { name: t('nav.contact'), path: "/contact" },
+    { name: t('nav.admin'), path: "/admin" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -36,7 +39,7 @@ const Navigation = () => {
               <h1 className="text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition">
                 Second ECWA Church 
               </h1>
-              <p className="text-xs text-muted-foreground">Faith, hope & Love.</p>
+              <p className="text-xs text-muted-foreground">{t('nav.tagline')}</p>
             </div>
           </Link>
 
@@ -57,11 +60,12 @@ const Navigation = () => {
               </Link>
             ))}
             <div className="flex items-center space-x-3 ml-4">
+              <LanguageToggle />
               <SocialLinks variant="header" size="sm" className="hidden lg:flex" />
               <Link to="/give">
                 <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
                   <Heart className="h-4 w-4 mr-2" />
-                  Give
+                  {t('nav.give')}
                 </Button>
               </Link>
             </div>
@@ -100,11 +104,12 @@ const Navigation = () => {
                 </Link>
               ))}
               <div className="mx-4 mt-4 space-y-4">
+                <LanguageToggle />
                 <SocialLinks variant="header" size="sm" />
                 <Link to="/give" onClick={() => setIsOpen(false)} className="w-full">
                   <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
                     <Heart className="h-4 w-4 mr-2" />
-                    Give
+                    {t('nav.give')}
                   </Button>
                 </Link>
               </div>

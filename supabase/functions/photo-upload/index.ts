@@ -94,19 +94,20 @@ serve(async (req) => {
     console.log('Photo upload request:', { action, title, category, is_featured });
 
     // Verify admin session
-    const { data: adminData, error: adminError } = await supabaseClient
+    const { data: adminDataArray, error: adminError } = await supabaseClient
       .from('admin_settings')
       .select('session_expires_at')
-      .eq('session_token', sessionToken)
-      .single();
+      .eq('session_token', sessionToken);
 
-    if (adminError || !adminData) {
+    if (adminError || !adminDataArray || adminDataArray.length === 0) {
       console.error('Admin verification failed:', adminError);
       return new Response(
         JSON.stringify({ error: 'Unauthorized: Invalid session' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const adminData = adminDataArray[0];
 
     // Check if session is expired
     if (adminData.session_expires_at && new Date(adminData.session_expires_at) < new Date()) {

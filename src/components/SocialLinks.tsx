@@ -69,16 +69,10 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group"
+            className={`group inline-flex items-center justify-center ${getButtonSize()} ${getVariantStyles()} rounded-md cursor-pointer`}
             aria-label={`Follow us on ${social.name}`}
           >
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`${getButtonSize()} ${getVariantStyles()}`}
-            >
-              <Icon className={`${getIconSize()} transition-all duration-300 ${variant === "footer" ? "group-hover:text-white" : social.color}`} />
-            </Button>
+            <Icon className={`${getIconSize()} transition-all duration-300 ${variant === "footer" ? "group-hover:text-white" : social.color}`} />
           </a>
         );
       })}

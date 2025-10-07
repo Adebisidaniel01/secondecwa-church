@@ -32,17 +32,17 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
             <img 
               src={churchLogo} 
               alt="Second ECWA Church Logo" 
-              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover"
+              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover flex-shrink-0"
             />
-            <div className="flex flex-col">
-              <h1 className="text-sm sm:text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition leading-tight">
+            <div className="flex flex-col min-w-0">
+              <h1 className="text-xs sm:text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition leading-tight truncate">
                 Second ECWA Church 
               </h1>
-              <p className="text-[10px] sm:text-xs text-muted-foreground hidden xs:block">{t('nav.tagline')}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">{t('nav.tagline')}</p>
             </div>
           </Link>
 

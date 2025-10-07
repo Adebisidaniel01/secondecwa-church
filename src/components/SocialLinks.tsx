@@ -11,21 +11,21 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
   const socialLinks = [
     {
       name: "Facebook",
-      url: "https://web.facebook.com/secondecwa.ilorin",
+      url: "https://www.facebook.com/secondecwa.ilorin",
       icon: Facebook,
       color: "hover:text-blue-500",
       bgColor: "hover:bg-blue-500/10"
     },
     {
       name: "Instagram", 
-      url: "https://www.instagram.com/secondecwa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+      url: "https://www.instagram.com/secondecwa",
       icon: Instagram,
       color: "hover:text-pink-500",
       bgColor: "hover:bg-pink-500/10"
     },
     {
       name: "YouTube",
-      url: "http://www.youtube.com/@secondecwailorin",
+      url: "https://www.youtube.com/@secondecwailorin",
       icon: Youtube,
       color: "hover:text-red-500",
       bgColor: "hover:bg-red-500/10"

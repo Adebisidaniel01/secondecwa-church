@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Cross, Heart } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+import churchLogo from "@/assets/church-logo.jpg";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,15 +32,17 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="p-2 rounded-full sanctuary-gradient">
-              <Cross className="h-5 w-5 text-sanctuary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition">
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+            <img 
+              src={churchLogo} 
+              alt="Second ECWA Church Logo" 
+              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover"
+            />
+            <div className="flex flex-col">
+              <h1 className="text-sm sm:text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition leading-tight">
                 Second ECWA Church 
               </h1>
-              <p className="text-xs text-muted-foreground">{t('nav.tagline')}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground hidden xs:block">{t('nav.tagline')}</p>
             </div>
           </Link>
 

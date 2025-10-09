@@ -153,7 +153,7 @@ const Index = () => {
                 Our Heart & Mission
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                For over 20 years, Second ECWA has been a beacon of hope and love in our community. 
+                For over a few decades, Second ECWA has been a beacon of hope and love in our community.
                 We believe in the transformative power of faith, the strength of community, and the 
                 importance of serving others with compassion and grace.
               </p>
@@ -199,45 +199,53 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="group hover:shadow-lg smooth-transition cursor-pointer">
-              <CardContent className="p-6 text-center space-y-4">
-                <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
-                  <Play className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold">Latest Sermons</h3>
-                <p className="text-sm text-muted-foreground">Listen to recent messages and find inspiration</p>
-              </CardContent>
-            </Card>
+            <a href="/sermons" className="block">
+              <Card className="group hover:shadow-lg smooth-transition cursor-pointer h-full">
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
+                    <Play className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold">Latest Sermons</h3>
+                  <p className="text-sm text-muted-foreground">Listen to recent messages and find inspiration</p>
+                </CardContent>
+              </Card>
+            </a>
 
-            <Card className="group hover:shadow-lg smooth-transition cursor-pointer">
-              <CardContent className="p-6 text-center space-y-4">
-                <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
-                  <Calendar className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold">Upcoming Events</h3>
-                <p className="text-sm text-muted-foreground">Join us for special services and activities</p>
-              </CardContent>
-            </Card>
+            <a href="/events" className="block">
+              <Card className="group hover:shadow-lg smooth-transition cursor-pointer h-full">
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
+                    <Calendar className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold">Upcoming Events</h3>
+                  <p className="text-sm text-muted-foreground">Join us for special services and activities</p>
+                </CardContent>
+              </Card>
+            </a>
 
-            <Card className="group hover:shadow-lg smooth-transition cursor-pointer">
-              <CardContent className="p-6 text-center space-y-4">
-                <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
-                  <Heart className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold">Give Online</h3>
-                <p className="text-sm text-muted-foreground">Support our mission and community outreach</p>
-              </CardContent>
-            </Card>
+            <a href="/give" className="block">
+              <Card className="group hover:shadow-lg smooth-transition cursor-pointer h-full">
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
+                    <Heart className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold">Give Online</h3>
+                  <p className="text-sm text-muted-foreground">Support our mission and community outreach</p>
+                </CardContent>
+              </Card>
+            </a>
 
-            <Card className="group hover:shadow-lg smooth-transition cursor-pointer">
-              <CardContent className="p-6 text-center space-y-4">
-                <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
-                  <MapPin className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold">Visit Us</h3>
-                <p className="text-sm text-muted-foreground">Find directions and plan your first visit</p>
-              </CardContent>
-            </Card>
+            <a href="/contact" className="block">
+              <Card className="group hover:shadow-lg smooth-transition cursor-pointer h-full">
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className="p-3 rounded-full bg-primary/10 w-fit mx-auto group-hover:bg-primary/20 smooth-transition">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold">Visit Us</h3>
+                  <p className="text-sm text-muted-foreground">Find directions and plan your first visit</p>
+                </CardContent>
+              </Card>
+            </a>
           </div>
         </div>
       </section>

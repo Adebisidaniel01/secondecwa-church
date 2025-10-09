@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";
 import reverendAyebulu from "@/assets/reverend-ayebulu.jpg";
+import pastorAlabi from "@/assets/pastor-alabi.jpg";
 
 const About = () => {
   const values = [
@@ -51,7 +52,7 @@ const About = () => {
       name: "Pastor Alabi Malik ",
       role: "Teenagers Pastor",
       description: "Connecting our church with the community through service and love.",
-      photoUrl: null
+      photoUrl: pastorAlabi
     }
   ];
 

@@ -2,6 +2,7 @@ import { Users, Globe, HandHeart, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";
+import reverendAyebulu from "@/assets/reverend-ayebulu.jpg";
 
 const About = () => {
   const values = [
@@ -32,7 +33,7 @@ const About = () => {
       name: "Reverend Dr. Ayebulu Emmanuel",
       role: "Senior Pastor",
       description: "Leading our congregation with wisdom and compassion for over 15 years.",
-      photoUrl: null
+      photoUrl: reverendAyebulu
     },
     {
       name: "Reverend Oluwafemi Adeyemi",
@@ -48,7 +49,7 @@ const About = () => {
     },
     {
       name: "Pastor Alabi Malik ",
-      role: "Community Outreach Coordinator",
+      role: "Teenagers Pastor",
       description: "Connecting our church with the community through service and love.",
       photoUrl: null
     }

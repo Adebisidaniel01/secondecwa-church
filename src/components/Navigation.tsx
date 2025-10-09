@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageToggle from "@/components/LanguageToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 import churchLogo from "@/assets/church-logo.jpg";
 
@@ -64,6 +65,7 @@ const Navigation = () => {
             ))}
             <div className="flex items-center space-x-3 ml-4">
               <LanguageToggle />
+              <ThemeToggle />
               <SocialLinks variant="header" size="sm" className="hidden lg:flex" />
               <Link to="/give">
                 <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
@@ -108,6 +110,7 @@ const Navigation = () => {
               ))}
               <div className="mx-4 mt-4 space-y-4">
                 <LanguageToggle />
+                <ThemeToggle />
                 <SocialLinks variant="header" size="sm" />
                 <Link to="/give" onClick={() => setIsOpen(false)} className="w-full">
                   <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">

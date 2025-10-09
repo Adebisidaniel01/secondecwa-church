@@ -1,6 +1,7 @@
-import { Phone, Mail, MapPin, Heart } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SocialLinks from "@/components/SocialLinks";
+import churchLogo from "@/assets/church-logo.jpg";
 
 const Footer = () => {
   return (
@@ -10,9 +11,11 @@ const Footer = () => {
           {/* Church Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="p-2 rounded-full bg-white/10">
-                <Heart className="h-5 w-5" />
-              </div>
+              <img 
+                src={churchLogo} 
+                alt="Second ECWA Church Logo" 
+                className="h-10 w-10 rounded-full object-cover"
+              />
               <h3 className="text-xl font-playfair font-bold">Second ECWA Church</h3>
             </div>
             <p className="text-sanctuary-foreground/80 text-sm leading-relaxed">

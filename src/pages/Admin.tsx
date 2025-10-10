@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Play, Square, Settings, Video, Youtube, BarChart, Users, FileText, LogOut, MessageSquare, Mail, Calendar, Heart, DollarSign, Megaphone, Church, Camera } from "lucide-react";
 import PhotoUploadAdmin from "@/components/admin/PhotoUploadAdmin";
+import SermonUploadAdmin from "@/components/admin/SermonUploadAdmin";
 import Layout from "@/components/Layout";
 import YouTubeLive from "@/components/YouTubeLive";
 
@@ -821,10 +822,14 @@ const Admin = () => {
 
           <TabsContent value="media" className="space-y-6">
             <Tabs defaultValue="videos" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="videos" className="flex items-center gap-2">
                   <Video className="h-4 w-4" />
                   Videos
+                </TabsTrigger>
+                <TabsTrigger value="sermons" className="flex items-center gap-2">
+                  <Megaphone className="h-4 w-4" />
+                  Sermons
                 </TabsTrigger>
                 <TabsTrigger value="live" className="flex items-center gap-2">
                   <Play className="h-4 w-4" />
@@ -911,6 +916,10 @@ const Admin = () => {
                     </div>
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="sermons" className="space-y-6">
+                <SermonUploadAdmin />
               </TabsContent>
 
               <TabsContent value="youtube" className="space-y-6">

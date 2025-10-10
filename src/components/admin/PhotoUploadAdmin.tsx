@@ -31,7 +31,7 @@ const PhotoUploadAdmin = () => {
     category: "general",
     is_featured: false
   });
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -65,37 +65,56 @@ const PhotoUploadAdmin = () => {
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    const files = Array.from(e.target.files || []);
+    
+    if (files.length === 0) return;
+
+    // Validate all files
+    const validFiles: File[] = [];
+    let hasErrors = false;
+
+    for (const file of files) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
         toast({
           title: "Invalid File",
-          description: "Please select an image file",
+          description: `${file.name} is not an image file`,
           variant: "destructive",
         });
-        return;
+        hasErrors = true;
+        continue;
       }
 
       // Validate file size (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         toast({
           title: "File Too Large",
-          description: "Please select an image smaller than 10MB",
+          description: `${file.name} is larger than 10MB`,
           variant: "destructive",
         });
-        return;
+        hasErrors = true;
+        continue;
       }
 
-      setSelectedFile(file);
+      validFiles.push(file);
+    }
+
+    if (validFiles.length > 0) {
+      setSelectedFiles(validFiles);
+      if (!hasErrors) {
+        toast({
+          title: "Files Selected",
+          description: `${validFiles.length} file(s) ready to upload`,
+        });
+      }
     }
   };
 
   const handleUpload = async () => {
-    if (!selectedFile || !formData.title.trim()) {
+    if (selectedFiles.length === 0 || !formData.title.trim()) {
       toast({
         title: "Missing Information",
-        description: "Please select a file and enter a title",
+        description: "Please select at least one file and enter a title",
         variant: "destructive",
       });
       return;
@@ -111,60 +130,91 @@ const PhotoUploadAdmin = () => {
           description: "Please log in as admin",
           variant: "destructive",
         });
+        setUploading(false);
         return;
       }
 
-      // Convert file to base64
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const base64 = reader.result?.toString().split(',')[1];
-        
-        const { data, error } = await supabase.functions.invoke('photo-upload', {
-          body: {
-            action: 'upload',
-            sessionToken,
-            title: formData.title,
-            description: formData.description || null,
-            category: formData.category,
-            is_featured: formData.is_featured,
-            file: base64,
-            fileName: selectedFile.name
-          }
-        });
+      let successCount = 0;
+      let failCount = 0;
 
-        if (error) {
-          console.error('Upload error:', error);
-          toast({
-            title: "Upload Failed",
-            description: "Failed to upload photo",
-            variant: "destructive",
+      // Upload files sequentially to avoid overwhelming the server
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileTitle = selectedFiles.length > 1 ? `${formData.title} ${i + 1}` : formData.title;
+
+        try {
+          // Convert file to base64
+          const base64 = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const result = reader.result?.toString().split(',')[1];
+              if (result) resolve(result);
+              else reject(new Error('Failed to read file'));
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
           });
-          return;
-        }
 
+          const { error } = await supabase.functions.invoke('photo-upload', {
+            body: {
+              action: 'upload',
+              sessionToken,
+              title: fileTitle,
+              description: formData.description || null,
+              category: formData.category,
+              is_featured: formData.is_featured && i === 0, // Only first image is featured
+              file: base64,
+              fileName: file.name
+            }
+          });
+
+          if (error) {
+            console.error('Upload error for', file.name, ':', error);
+            failCount++;
+          } else {
+            successCount++;
+          }
+        } catch (err) {
+          console.error('Error uploading', file.name, ':', err);
+          failCount++;
+        }
+      }
+
+      // Show summary toast
+      if (successCount > 0 && failCount === 0) {
         toast({
           title: "Success",
-          description: "Photo uploaded successfully",
+          description: `${successCount} photo(s) uploaded successfully`,
         });
-
-        // Reset form
-        setFormData({
-          title: "",
-          description: "",
-          category: "general",
-          is_featured: false
+      } else if (successCount > 0 && failCount > 0) {
+        toast({
+          title: "Partial Success",
+          description: `${successCount} uploaded, ${failCount} failed`,
+          variant: "destructive",
         });
-        setSelectedFile(null);
-        
-        // Reset file input
-        const fileInput = document.getElementById('photo-upload') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
+      } else {
+        toast({
+          title: "Upload Failed",
+          description: "Failed to upload photos",
+          variant: "destructive",
+        });
+      }
 
-        // Refresh photos list
-        fetchPhotos();
-      };
+      // Reset form
+      setFormData({
+        title: "",
+        description: "",
+        category: "general",
+        is_featured: false
+      });
+      setSelectedFiles([]);
+      
+      // Reset file input
+      const fileInput = document.getElementById('photo-upload') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
 
-      reader.readAsDataURL(selectedFile);
+      // Refresh photos list
+      fetchPhotos();
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -245,12 +295,18 @@ const PhotoUploadAdmin = () => {
                 id="photo-upload"
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleFileSelect}
                 className="mt-1"
               />
               <p className="text-xs text-muted-foreground mt-1">
-                Max file size: 10MB. Supported formats: JPG, PNG, GIF, WebP
+                Max file size: 10MB per file. Supported formats: JPG, PNG, GIF, WebP. Select multiple files to upload at once.
               </p>
+              {selectedFiles.length > 0 && (
+                <p className="text-sm font-medium text-primary mt-2">
+                  {selectedFiles.length} file(s) selected
+                </p>
+              )}
             </div>
 
             <div>
@@ -307,7 +363,7 @@ const PhotoUploadAdmin = () => {
 
           <Button 
             onClick={handleUpload} 
-            disabled={uploading || !selectedFile || !formData.title.trim()}
+            disabled={uploading || selectedFiles.length === 0 || !formData.title.trim()}
             className="w-full md:w-auto"
           >
             {uploading ? (

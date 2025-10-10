@@ -46,7 +46,9 @@ const Sermons = () => {
       duration: "32 min",
       description: "Discover how faith can overcome our deepest fears and uncertainties. Learn to trust in God's perfect plan for your life.",
       image: sermonImage,
-      featured: true
+      featured: true,
+      audio_url: "",
+      video_url: ""
     },
     {
       id: 2,
@@ -58,7 +60,9 @@ const Sermons = () => {
       duration: "28 min",
       description: "Exploring the importance of Christian fellowship and how we can support one another in faith.",
       image: sermonImage,
-      featured: false
+      featured: false,
+      audio_url: "",
+      video_url: ""
     },
     {
       id: 3,
@@ -70,7 +74,9 @@ const Sermons = () => {
       duration: "35 min",
       description: "Finding hope and strength when facing life's most difficult challenges through God's promises.",
       image: sermonImage,
-      featured: false
+      featured: false,
+      audio_url: "",
+      video_url: ""
     },
     {
       id: 4,
@@ -82,7 +88,9 @@ const Sermons = () => {
       duration: "30 min",
       description: "Understanding the depth and breadth of Parents love and how we can reflect it to the behaviour of their childern.",
       image: sermonImage,
-      featured: false
+      featured: false,
+      audio_url: "",
+      video_url: ""
     },
     {
       id: 5,
@@ -94,7 +102,9 @@ const Sermons = () => {
       duration: "26 min",
       description: "Discovering the joy that comes from serving others and making a difference in our community.",
       image: sermonImage,
-      featured: false
+      featured: false,
+      audio_url: "",
+      video_url: ""
     },
     {
       id: 6,
@@ -106,7 +116,9 @@ const Sermons = () => {
       duration: "33 min",
       description: "Learning to pray with faith and confidence, knowing that God hears and answers our prayers.",
       image: sermonImage,
-      featured: false
+      featured: false,
+      audio_url: "",
+      video_url: ""
     }
   ];
 
@@ -187,7 +199,11 @@ const Sermons = () => {
                     className="w-full h-64 lg:h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <Button size="lg" className="worship-gradient text-worship-foreground hover:opacity-90">
+                    <Button 
+                      size="lg" 
+                      className="worship-gradient text-worship-foreground hover:opacity-90"
+                      onClick={() => featuredSermon.video_url && window.open(featuredSermon.video_url, '_blank')}
+                    >
                       <Play className="h-6 w-6 mr-2" />
                       Watch Now
                     </Button>
@@ -217,15 +233,45 @@ const Sermons = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-3 pt-4">
-                      <Button className="sanctuary-gradient text-sanctuary-foreground">
+                      <Button 
+                        className="sanctuary-gradient text-sanctuary-foreground"
+                        onClick={() => featuredSermon.audio_url && window.open(featuredSermon.audio_url, '_blank')}
+                        disabled={!featuredSermon.audio_url}
+                      >
                         <Play className="h-4 w-4 mr-2" />
                         Listen
                       </Button>
-                      <Button variant="outline">
+                      <Button 
+                        variant="outline"
+                        onClick={() => {
+                          const url = featuredSermon.audio_url || featuredSermon.video_url;
+                          if (url) {
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `${featuredSermon.title}.mp3`;
+                            link.click();
+                          }
+                        }}
+                        disabled={!featuredSermon.audio_url && !featuredSermon.video_url}
+                      >
                         <Download className="h-4 w-4 mr-2" />
                         Download
                       </Button>
-                      <Button variant="outline">
+                      <Button 
+                        variant="outline"
+                        onClick={() => {
+                          if (navigator.share) {
+                            navigator.share({
+                              title: featuredSermon.title,
+                              text: featuredSermon.description,
+                              url: window.location.href
+                            });
+                          } else {
+                            navigator.clipboard.writeText(window.location.href);
+                            alert('Link copied to clipboard!');
+                          }
+                        }}
+                      >
                         <Share2 className="h-4 w-4 mr-2" />
                         Share
                       </Button>
@@ -308,7 +354,15 @@ const Sermons = () => {
                       className="w-full h-48 object-cover rounded-t-lg"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 smooth-transition rounded-t-lg flex items-center justify-center">
-                      <Button variant="secondary" size="sm">
+                      <Button 
+                        variant="secondary" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          sermon.video_url && window.open(sermon.video_url, '_blank');
+                        }}
+                        disabled={!sermon.video_url}
+                      >
                         <Play className="h-4 w-4 mr-2" />
                         Play
                       </Button>
@@ -338,14 +392,52 @@ const Sermons = () => {
                     </div>
                     
                     <div className="flex gap-2 pt-2">
-                      <Button size="sm" variant="outline" className="flex-1">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="flex-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          sermon.audio_url && window.open(sermon.audio_url, '_blank');
+                        }}
+                        disabled={!sermon.audio_url}
+                      >
                         <Play className="h-3 w-3 mr-1" />
                         Listen
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const url = sermon.audio_url || sermon.video_url;
+                          if (url) {
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `${sermon.title}.mp3`;
+                            link.click();
+                          }
+                        }}
+                        disabled={!sermon.audio_url && !sermon.video_url}
+                      >
                         <Download className="h-3 w-3" />
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (navigator.share) {
+                            navigator.share({
+                              title: sermon.title,
+                              text: sermon.description,
+                              url: window.location.href
+                            });
+                          } else {
+                            navigator.clipboard.writeText(window.location.href);
+                          }
+                        }}
+                      >
                         <Share2 className="h-3 w-3" />
                       </Button>
                     </div>

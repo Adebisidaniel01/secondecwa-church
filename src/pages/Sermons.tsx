@@ -47,8 +47,8 @@ const Sermons = () => {
       description: "Discover how faith can overcome our deepest fears and uncertainties. Learn to trust in God's perfect plan for your life.",
       image: sermonImage,
       featured: true,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     },
     {
       id: 2,
@@ -61,8 +61,8 @@ const Sermons = () => {
       description: "Exploring the importance of Christian fellowship and how we can support one another in faith.",
       image: sermonImage,
       featured: false,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     },
     {
       id: 3,
@@ -75,8 +75,8 @@ const Sermons = () => {
       description: "Finding hope and strength when facing life's most difficult challenges through God's promises.",
       image: sermonImage,
       featured: false,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     },
     {
       id: 4,
@@ -89,8 +89,8 @@ const Sermons = () => {
       description: "Understanding the depth and breadth of Parents love and how we can reflect it to the behaviour of their childern.",
       image: sermonImage,
       featured: false,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     },
     {
       id: 5,
@@ -103,8 +103,8 @@ const Sermons = () => {
       description: "Discovering the joy that comes from serving others and making a difference in our community.",
       image: sermonImage,
       featured: false,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     },
     {
       id: 6,
@@ -117,8 +117,8 @@ const Sermons = () => {
       description: "Learning to pray with faith and confidence, knowing that God hears and answers our prayers.",
       image: sermonImage,
       featured: false,
-      audio_url: "",
-      video_url: ""
+      audio_url: "https://www.youtube.com/@secondecwailorin",
+      video_url: "https://www.youtube.com/@secondecwailorin"
     }
   ];
 
@@ -202,7 +202,11 @@ const Sermons = () => {
                     <Button 
                       size="lg" 
                       className="worship-gradient text-worship-foreground hover:opacity-90"
-                      onClick={() => featuredSermon.video_url && window.open(featuredSermon.video_url, '_blank')}
+                      onClick={() => {
+                        if (featuredSermon.video_url) {
+                          window.open(featuredSermon.video_url, '_blank', 'noopener,noreferrer');
+                        }
+                      }}
                     >
                       <Play className="h-6 w-6 mr-2" />
                       Watch Now
@@ -235,7 +239,11 @@ const Sermons = () => {
                     <div className="flex flex-wrap gap-3 pt-4">
                       <Button 
                         className="sanctuary-gradient text-sanctuary-foreground"
-                        onClick={() => featuredSermon.audio_url && window.open(featuredSermon.audio_url, '_blank')}
+                        onClick={() => {
+                          if (featuredSermon.audio_url) {
+                            window.open(featuredSermon.audio_url, '_blank', 'noopener,noreferrer');
+                          }
+                        }}
                         disabled={!featuredSermon.audio_url}
                       >
                         <Play className="h-4 w-4 mr-2" />
@@ -359,7 +367,9 @@ const Sermons = () => {
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
-                          sermon.video_url && window.open(sermon.video_url, '_blank');
+                          if (sermon.video_url) {
+                            window.open(sermon.video_url, '_blank', 'noopener,noreferrer');
+                          }
                         }}
                         disabled={!sermon.video_url}
                       >
@@ -398,7 +408,9 @@ const Sermons = () => {
                         className="flex-1"
                         onClick={(e) => {
                           e.stopPropagation();
-                          sermon.audio_url && window.open(sermon.audio_url, '_blank');
+                          if (sermon.audio_url) {
+                            window.open(sermon.audio_url, '_blank', 'noopener,noreferrer');
+                          }
                         }}
                         disabled={!sermon.audio_url}
                       >

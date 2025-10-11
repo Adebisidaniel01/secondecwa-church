@@ -114,8 +114,8 @@ const Index = () => {
                   <Clock className="h-8 w-8 text-sanctuary-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold">Sunday Worship</h3>
-                <p className="text-2xl font-playfair font-bold text-primary">9:00 AM & 11:00 AM</p>
-                <p className="text-muted-foreground">Traditional and Contemporary Services</p>
+                <p className="text-2xl font-playfair font-bold text-primary">8:00 AM - 10:00 AM</p>
+                <p className="text-muted-foreground">Join us for our Sunday service</p>
               </CardContent>
             </Card>
 

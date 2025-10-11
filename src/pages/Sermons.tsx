@@ -449,28 +449,6 @@ const Sermons = () => {
         </div>
       </section>
 
-      {/* Podcast Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-6">
-            Listen on the Go
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Subscribe to our podcast and never miss a message. Available on all major podcast platforms.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Apple Podcasts
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Spotify
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Google Podcasts
-            </Button>
-          </div>
-        </div>
-      </section>
     </Layout>
   );
 };

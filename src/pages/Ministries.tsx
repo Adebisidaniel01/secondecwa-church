@@ -548,26 +548,6 @@ const Ministries = () => {
         </div>
       </section>
 
-      {/* Get Involved CTA */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-6">
-            Ready to Get Involved?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            We believe everyone has something unique to contribute. Whether you have 
-            five minutes or five hours a week, there's a place for you to serve and grow.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="worship-gradient text-worship-foreground hover:opacity-90">
-              Find Your Ministry
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Talk to a Pastor
-            </Button>
-          </div>
-        </div>
-      </section>
     </Layout>
   );
 };

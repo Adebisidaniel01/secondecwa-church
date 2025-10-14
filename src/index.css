@@ -109,7 +109,7 @@
 
     /* Dark mode church colors */
     --sanctuary: 45 85% 65%;
-    --sanctuary-foreground: 215 95% 8%;
+    --sanctuary-foreground: 0 0% 100%;
     --blessing: 145 45% 55%;
     --blessing-foreground: 215 95% 8%;
     --worship: 45 75% 75%;

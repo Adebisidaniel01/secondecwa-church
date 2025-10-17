@@ -71,10 +71,7 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
             rel="noopener noreferrer"
             className={`group inline-flex items-center justify-center ${getButtonSize()} ${getVariantStyles()} rounded-md cursor-pointer relative z-10`}
             aria-label={`Follow us on ${social.name}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              window.open(social.url, '_blank', 'noopener,noreferrer');
-            }}
+            
           >
             <Icon className={`${getIconSize()} transition-all duration-300 ${variant === "footer" ? "group-hover:text-white" : social.color} pointer-events-none`} />
           </a>

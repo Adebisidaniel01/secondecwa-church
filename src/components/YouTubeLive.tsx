@@ -5,9 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const YouTubeLive = () => {
   const channelId = "UCFM8ROf93C7j_D6MDL0h42Q"; // Your YouTube Channel ID
-  const channelName = "Second ECWA Church, Ilorin"; // Your channel display name
+  const channelName = "Second ECWA Church, Ilorin"; // Display name
   const embedUrl = `https://www.youtube.com/embed/live_stream?channel=${channelId}`;
   const channelUrl = `https://www.youtube.com/channel/${channelId}`;
+  const liveDashboardUrl = "https://studio.youtube.com/live"; // Direct link to YouTube Live dashboard
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
@@ -20,12 +21,12 @@ const YouTubeLive = () => {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {/* Badge to indicate live section */}
+        {/* Badge */}
         <div className="flex items-center gap-2">
-          <Badge variant="destructive">🔴 LIVE STREAM</Badge>
+          <Badge variant="secondary">🎥 Stream Control & Viewing</Badge>
         </div>
 
-        {/* Embedded YouTube live stream */}
+        {/* Embedded YouTube player */}
         <div className="aspect-video w-full rounded-lg overflow-hidden shadow-lg border border-border">
           <iframe
             src={embedUrl}
@@ -37,27 +38,29 @@ const YouTubeLive = () => {
           ></iframe>
         </div>
 
-        {/* Buttons */}
+        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {/* Button for you — direct to YouTube Live Dashboard */}
           <Button className="flex items-center gap-2" asChild>
+            <a
+              href={liveDashboardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Manage Stream (YouTube Live Dashboard)
+            </a>
+          </Button>
+
+          {/* Public Watch Button */}
+          <Button variant="outline" className="flex items-center gap-2" asChild>
             <a
               href={`${channelUrl}/live`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLink className="h-4 w-4" />
-              Watch Live on YouTube
-            </a>
-          </Button>
-
-          <Button variant="outline" className="flex items-center gap-2" asChild>
-            <a
-              href={channelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
               <Youtube className="h-4 w-4" />
-              Visit Our Channel
+              Watch Live on YouTube
             </a>
           </Button>
         </div>

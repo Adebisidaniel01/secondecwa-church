@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Youtube, ExternalLink } from "lucide-react";
 
 interface YouTubeSettings {
+  channel_id: string;
   channel_name: string;
   is_live: boolean;
 }
@@ -40,12 +41,16 @@ const YouTubeLive = () => {
 
   const fetchYouTubeStatus = async () => {
     try {
-      const { data } = await supabase.functions.invoke('youtube-integration', {
-        body: { action: 'status' }
-      });
+      const { data, error } = await supabase
+        .from('youtube_settings')
+        .select('channel_id, channel_name, is_live')
+        .limit(1)
+        .single();
 
-      if (data.settings) {
-        setYoutubeSettings(data.settings);
+      if (error) throw error;
+
+      if (data) {
+        setYoutubeSettings(data);
       }
     } catch (error) {
       console.error('Failed to fetch YouTube status:', error);
@@ -96,7 +101,7 @@ const YouTubeLive = () => {
             </p>
             <Button className="w-full" asChild>
               <a 
-                href={`https://youtube.com/channel/${youtubeSettings.channel_name}`}
+                href={`https://www.youtube.com/channel/${youtubeSettings.channel_id}/live`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
@@ -113,7 +118,7 @@ const YouTubeLive = () => {
             </p>
             <Button variant="outline" className="w-full" asChild>
               <a 
-                href={`https://youtube.com/channel/${youtubeSettings.channel_name}`}
+                href={`https://www.youtube.com/@${youtubeSettings.channel_name}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"

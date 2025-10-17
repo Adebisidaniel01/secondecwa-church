@@ -11,7 +11,7 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
   const socialLinks = [
     {
       name: "Facebook",
-      url: "https://www.facebook.com/secondecwa.ilorin",
+      url: "https://web.facebook.com/secondecwa.ilorin",
       icon: Facebook,
       color: "hover:text-blue-500",
       bgColor: "hover:bg-blue-500/10"

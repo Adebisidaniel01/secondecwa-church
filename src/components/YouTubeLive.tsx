@@ -7,9 +7,10 @@ import { useState } from "react";
 const YouTubeLive = () => {
   const channelId = "UCFM8ROf93C7j_D6MDL0h42Q"; // Your YouTube Channel ID
   const channelName = "Second ECWA Church, Ilorin"; // Display name
-  const embedUrl = `https://www.youtube.com/embed/live_stream?channel=${channelId}`;
+  const embedUrl = `https://www.youtube.com/embed/live_stream?channel=UCFM8ROf93C7j_D6MDL0h42Q`; 
   const channelUrl = `https://www.youtube.com/channel/${channelId}`;
-  const liveDashboardUrl = "https://studio.youtube.com/live";
+  const liveDashboardUrl = "https://studio.youtube.com/channel/UCFM8ROf93C7j_D6MDL0h42Q/livestreaming";
+
 
   const [embedError, setEmbedError] = useState(false);
 

@@ -97,7 +97,8 @@ serve(async (req) => {
     const { data: adminDataArray, error: adminError } = await supabaseClient
       .from('admin_settings')
       .select('session_expires_at')
-      .eq('session_token', sessionToken);
+      .eq('session_token', sessionToken)
+      .returns<Array<{ session_expires_at: string | null }>>();
 
     if (adminError || !adminDataArray || adminDataArray.length === 0) {
       console.error('Admin verification failed:', adminError);
@@ -155,6 +156,7 @@ serve(async (req) => {
           is_featured: is_featured || false
         })
         .select()
+        .returns<Database['public']['Tables']['photos']['Row']>()
         .single();
 
       if (photoError) {
@@ -179,6 +181,7 @@ serve(async (req) => {
         .from('photos')
         .select('file_url')
         .eq('id', photoId)
+        .returns<{ file_url: string }>()
         .single();
 
       if (fetchError || !photoData) {

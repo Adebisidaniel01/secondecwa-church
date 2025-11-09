@@ -9,66 +9,15 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import LiveStreamIndicator from "@/components/LiveStreamIndicator";
 
 const Index = () => {
-  const [isLive, setIsLive] = useState(false);
-  const [channelId, setChannelId] = useState<string | null>(null);
-  const { toast } = useToast();
   const { t } = useLanguage();
-
-  useEffect(() => {
-    const fetchYouTubeSettings = async () => {
-      const { data } = await supabase
-        .from('youtube_settings')
-        .select('*')
-        .limit(1)
-        .single();
-
-      if (data) {
-        setIsLive(data.is_live || false);
-        setChannelId(data.channel_id);
-      }
-    };
-
-    fetchYouTubeSettings();
-
-    const channel = supabase
-      .channel('youtube-settings-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'youtube_settings'
-        },
-        (payload) => {
-          if (payload.new && typeof payload.new === 'object' && 'is_live' in payload.new) {
-            setIsLive(payload.new.is_live || false);
-            setChannelId(payload.new.channel_id || null);
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const handleWatchLive = () => {
-    if (isLive && channelId) {
-      window.open(`https://www.youtube.com/channel/${channelId}/live`, '_blank');
-    } else {
-      toast({
-        title: "No Live Stream",
-        description: "Nothing streaming at the moment, check back later.",
-        variant: "default",
-      });
-    }
-  };
 
   return (
     <Layout>
+      <LiveStreamIndicator />
+      
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
@@ -84,16 +33,6 @@ const Index = () => {
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto fade-in">
             {t('home.welcomeText')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center fade-in">
-            <Button 
-              size="lg" 
-              className="worship-gradient text-worship-foreground hover:opacity-90 text-lg px-8 py-4"
-              onClick={handleWatchLive}
-            >
-              <Play className="h-5 w-5 mr-2" />
-              {t('home.watchLive')}
-            </Button>
-          </div>
         </div>
       </section>
 

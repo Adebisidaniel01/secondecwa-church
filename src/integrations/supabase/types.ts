@@ -712,6 +712,7 @@ export type Database = {
           api_key: string | null
           channel_id: string | null
           channel_name: string | null
+          channel_url: string | null
           created_at: string
           id: string
           is_live: boolean | null
@@ -722,6 +723,7 @@ export type Database = {
           api_key?: string | null
           channel_id?: string | null
           channel_name?: string | null
+          channel_url?: string | null
           created_at?: string
           id?: string
           is_live?: boolean | null
@@ -732,6 +734,7 @@ export type Database = {
           api_key?: string | null
           channel_id?: string | null
           channel_name?: string | null
+          channel_url?: string | null
           created_at?: string
           id?: string
           is_live?: boolean | null

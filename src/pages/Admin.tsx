@@ -12,7 +12,7 @@ import { Upload, Play, Square, Settings, Video, Youtube, BarChart, Users, FileTe
 import PhotoUploadAdmin from "@/components/admin/PhotoUploadAdmin";
 import SermonUploadAdmin from "@/components/admin/SermonUploadAdmin";
 import Layout from "@/components/Layout";
-import YouTubeLive from "@/components/YouTubeLive";
+import LiveStreamIndicator from "@/components/LiveStreamIndicator";
 
 interface Video {
   id: string;
@@ -101,15 +101,8 @@ const Admin = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  // YouTube configuration form
-  const [ytApiKey, setYtApiKey] = useState("");
-  const [ytChannelId, setYtChannelId] = useState("");
-  const [ytChannelName, setYtChannelName] = useState("");
-  const [ytStreamKey, setYtStreamKey] = useState("");
-
-  // Live stream form
-  const [liveTitle, setLiveTitle] = useState("");
-  const [liveDescription, setLiveDescription] = useState("");
+  // YouTube channel URL
+  const [channelUrl, setChannelUrl] = useState("");
 
   // Video upload form
   const [videoTitle, setVideoTitle] = useState("");
@@ -277,12 +270,18 @@ const Admin = () => {
 
   const fetchYouTubeStatus = async () => {
     try {
-      const { data } = await supabase.functions.invoke('youtube-integration', {
-        body: { action: 'status' }
-      });
+      const { data } = await supabase
+        .from('youtube_settings')
+        .select('*')
+        .limit(1)
+        .single();
 
-      if (data.settings) {
-        setYoutubeSettings(data.settings);
+      if (data) {
+        setYoutubeSettings({
+          channel_name: data.channel_name || '',
+          is_live: data.is_live || false
+        });
+        setChannelUrl(data.channel_url || '');
       }
     } catch (error) {
       console.error('Failed to fetch YouTube status:', error);
@@ -347,36 +346,28 @@ const Admin = () => {
     }
   };
 
-  const handleYouTubeConfig = async (e: React.FormEvent) => {
+  const handleChannelUrlUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('youtube-integration', {
-        body: {
-          action: 'configure',
-          token,
-          youtubeData: {
-            apiKey: ytApiKey,
-            channelId: ytChannelId,
-            channelName: ytChannelName,
-            liveStreamKey: ytStreamKey
-          }
-        }
-      });
+      const { error } = await supabase
+        .from('youtube_settings')
+        .update({ channel_url: channelUrl })
+        .limit(1);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "YouTube configured successfully",
+        description: "YouTube channel URL updated successfully",
       });
 
       fetchYouTubeStatus();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to configure YouTube",
+        description: "Failed to update channel URL",
         variant: "destructive",
       });
     } finally {
@@ -387,29 +378,23 @@ const Admin = () => {
   const handleGoLive = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('youtube-integration', {
-        body: {
-          action: 'go-live',
-          token,
-          youtubeData: {
-            title: liveTitle,
-            description: liveDescription
-          }
-        }
-      });
+      const { error } = await supabase
+        .from('youtube_settings')
+        .update({ is_live: true })
+        .limit(1);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Live stream started!",
+        description: "Live indicator activated!",
       });
 
       fetchYouTubeStatus();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to start live stream",
+        description: "Failed to activate live indicator",
         variant: "destructive",
       });
     } finally {
@@ -420,22 +405,23 @@ const Admin = () => {
   const handleStopLive = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('youtube-integration', {
-        body: { action: 'stop-live', token }
-      });
+      const { error } = await supabase
+        .from('youtube_settings')
+        .update({ is_live: false })
+        .limit(1);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Live stream stopped",
+        description: "Live indicator deactivated",
       });
 
       fetchYouTubeStatus();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to stop live stream",
+        description: "Failed to deactivate live indicator",
         variant: "destructive",
       });
     } finally {
@@ -504,11 +490,6 @@ const Admin = () => {
               Logout
             </Button>
           </div>
-        </div>
-
-        {/* YouTube Live Component */}
-        <div className="mb-8">
-          <YouTubeLive />
         </div>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
@@ -822,7 +803,7 @@ const Admin = () => {
 
           <TabsContent value="media" className="space-y-6">
             <Tabs defaultValue="videos" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="videos" className="flex items-center gap-2">
                   <Video className="h-4 w-4" />
                   Videos
@@ -833,11 +814,7 @@ const Admin = () => {
                 </TabsTrigger>
                 <TabsTrigger value="live" className="flex items-center gap-2">
                   <Play className="h-4 w-4" />
-                  Go Live
-                </TabsTrigger>
-                <TabsTrigger value="youtube" className="flex items-center gap-2">
-                  <Youtube className="h-4 w-4" />
-                  YouTube Settings
+                  Live Settings
                 </TabsTrigger>
               </TabsList>
 
@@ -922,88 +899,59 @@ const Admin = () => {
                 <SermonUploadAdmin />
               </TabsContent>
 
-              <TabsContent value="youtube" className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Youtube className="h-5 w-5" />
-                      YouTube Configuration
-                    </CardTitle>
-                    <CardDescription>
-                      Configure your YouTube channel for live streaming
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleYouTubeConfig} className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="api-key">API Key</Label>
-                          <Input
-                            id="api-key"
-                            type="password"
-                            value={ytApiKey}
-                            onChange={(e) => setYtApiKey(e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="channel-id">Channel ID</Label>
-                          <Input
-                            id="channel-id"
-                            value={ytChannelId}
-                            onChange={(e) => setYtChannelId(e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="channel-name">Channel Name</Label>
-                          <Input
-                            id="channel-name"
-                            value={ytChannelName}
-                            onChange={(e) => setYtChannelName(e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="stream-key">Stream Key</Label>
-                          <Input
-                            id="stream-key"
-                            type="password"
-                            value={ytStreamKey}
-                            onChange={(e) => setYtStreamKey(e.target.value)}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <Button type="submit" disabled={loading}>
-                        {loading ? "Configuring..." : "Save Configuration"}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
               <TabsContent value="live" className="space-y-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Play className="h-5 w-5" />
-                      Live Streaming Controls
+                      <Youtube className="h-5 w-5" />
+                      YouTube Channel Settings
                     </CardTitle>
                     <CardDescription>
-                      Start or stop live streaming to YouTube
+                      Set your YouTube channel URL to link from the live button
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleChannelUrlUpdate} className="space-y-4">
+                      <div>
+                        <Label htmlFor="channel-url">YouTube Channel URL</Label>
+                        <Input
+                          id="channel-url"
+                          value={channelUrl}
+                          onChange={(e) => setChannelUrl(e.target.value)}
+                          placeholder="https://www.youtube.com/@yourchannel"
+                          required
+                        />
+                        <p className="text-sm text-muted-foreground mt-2">
+                          This is the URL users will visit when they click the live button
+                        </p>
+                      </div>
+                      <Button type="submit" disabled={loading}>
+                        {loading ? "Updating..." : "Update Channel URL"}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Play className="h-5 w-5" />
+                      Live Indicator Controls
+                    </CardTitle>
+                    <CardDescription>
+                      Toggle the live indicator that appears on your website
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     {youtubeSettings?.is_live ? (
                       <div className="space-y-4">
-                        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                          <div className="flex items-center gap-2 text-red-800">
+                        <div className="p-4 bg-red-50 border border-red-200 rounded-lg dark:bg-red-950 dark:border-red-800">
+                          <div className="flex items-center gap-2 text-red-800 dark:text-red-200">
                             <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                            <span className="font-semibold">LIVE NOW</span>
+                            <span className="font-semibold">LIVE INDICATOR ACTIVE</span>
                           </div>
-                          <p className="text-red-700 text-sm mt-1">
-                            Your stream is currently broadcasting to YouTube
+                          <p className="text-red-700 dark:text-red-300 text-sm mt-1">
+                            The live button is currently showing on your website
                           </p>
                         </div>
                         <Button 
@@ -1013,36 +961,23 @@ const Admin = () => {
                           className="w-full"
                         >
                           <Square className="mr-2 h-4 w-4" />
-                          {loading ? "Stopping..." : "Stop Live Stream"}
+                          {loading ? "Deactivating..." : "Deactivate Live Indicator"}
                         </Button>
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="live-title">Stream Title</Label>
-                          <Input
-                            id="live-title"
-                            value={liveTitle}
-                            onChange={(e) => setLiveTitle(e.target.value)}
-                            placeholder="Enter your live stream title"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="live-description">Stream Description</Label>
-                          <Textarea
-                            id="live-description"
-                            value={liveDescription}
-                            onChange={(e) => setLiveDescription(e.target.value)}
-                            placeholder="Describe your live stream"
-                          />
+                        <div className="p-4 bg-muted rounded-lg">
+                          <p className="text-sm text-muted-foreground">
+                            The live indicator is currently off. Activate it when you go live on YouTube to show the live button on your website.
+                          </p>
                         </div>
                         <Button 
                           onClick={handleGoLive} 
-                          className="w-full"
+                          className="w-full bg-red-600 hover:bg-red-700"
                           disabled={loading}
                         >
                           <Play className="mr-2 h-4 w-4" />
-                          {loading ? "Starting..." : "Go Live"}
+                          {loading ? "Activating..." : "Activate Live Indicator"}
                         </Button>
                       </div>
                     )}

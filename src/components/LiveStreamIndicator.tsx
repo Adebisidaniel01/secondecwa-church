@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const LiveStreamIndicator = () => {
   const [isLive, setIsLive] = useState(false);
-  const [channelId, setChannelId] = useState<string | null>(null);
+  const [channelUrl, setChannelUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch YouTube settings
@@ -17,7 +17,7 @@ const LiveStreamIndicator = () => {
 
       if (data) {
         setIsLive(data.is_live || false);
-        setChannelId(data.channel_id);
+        setChannelUrl(data.channel_url);
       }
     };
 
@@ -36,7 +36,7 @@ const LiveStreamIndicator = () => {
         (payload) => {
           if (payload.new && typeof payload.new === 'object' && 'is_live' in payload.new) {
             setIsLive(payload.new.is_live || false);
-            setChannelId(payload.new.channel_id || null);
+            setChannelUrl(payload.new.channel_url || null);
           }
         }
       )
@@ -51,7 +51,7 @@ const LiveStreamIndicator = () => {
 
   return (
     <a 
-      href={channelId ? `https://www.youtube.com/channel/${channelId}/live` : '/videos'}
+      href={channelUrl || 'https://www.youtube.com'}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-3 animate-pulse smooth-transition"

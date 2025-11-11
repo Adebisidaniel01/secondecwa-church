@@ -76,6 +76,8 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
               className={`${getIconSize()} transition-all duration-300 ${
                 variant === "footer" ? "group-hover:text-white" : social.color
               } pointer-events-none`}
+              strokeWidth={3}
+              fill="currentColor"
             />
           </a>
         );

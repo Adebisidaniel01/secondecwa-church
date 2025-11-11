@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";
 import reverendAyebulu from "@/assets/reverend-ayebulu.jpg";
 import pastorAlabi from "@/assets/pastor-alabi.jpg";
+import aboutHeader from "@/assets/about-header.jpg";
 
 const About = () => {
   const values = [
@@ -59,13 +60,19 @@ const About = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${aboutHeader})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-white mb-6">
               About Second ECWA
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               For over two decades, we've been a place where faith flourishes, 
               community thrives, and lives are transformed by the love of Jesus Christ.
             </p>

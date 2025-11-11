@@ -19,11 +19,9 @@ const Navigation = () => {
     { name: t('nav.about'), path: "/about" },
     { name: t('nav.sermons'), path: "/sermons" },
     { name: t('nav.videos'), path: "/videos" },
-    { name: t('nav.gallery'), path: "/gallery" },
     { name: t('nav.events'), path: "/events" },
     { name: t('nav.ministries'), path: "/ministries" },
     { name: t('nav.contact'), path: "/contact" },
-    { name: t('nav.admin'), path: "/admin" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -66,7 +64,6 @@ const Navigation = () => {
             <div className="flex items-center gap-2 lg:gap-3 ml-2 lg:ml-4">
               <LanguageToggle />
               <ThemeToggle />
-              <SocialLinks variant="header" size="sm" className="hidden xl:flex" />
               <Link to="/give">
                 <Button variant="default" size="sm" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90 whitespace-nowrap">
                   <Heart className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
@@ -111,7 +108,6 @@ const Navigation = () => {
               <div className="mx-4 mt-4 space-y-4">
                 <LanguageToggle />
                 <ThemeToggle />
-                <SocialLinks variant="header" size="sm" />
                 <Link to="/give" onClick={() => setIsOpen(false)} className="w-full">
                   <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
                     <Heart className="h-4 w-4 mr-2" />

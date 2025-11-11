@@ -1,15 +1,17 @@
-import { Calendar, Clock, Users, BookOpen, MapPin, Play, ArrowRight, Heart } from "lucide-react";
+import { Calendar, Clock, Users, BookOpen, MapPin, Play, ArrowRight, Heart, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import heroImage from "@/assets/church-hero.jpg";
 import pastorSpeaking from "@/assets/pastor-speaking.jpg";
 import sermonImage from "@/assets/sermon-scene.jpg";
+import communityPrayer from "@/assets/community-prayer.jpg";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LiveStreamIndicator from "@/components/LiveStreamIndicator";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -21,18 +23,24 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-fade-in"
           style={{ backgroundImage: `url(${heroImage})` }}
         > 
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl font-playfair font-bold mb-6 fade-in">
+          <h1 className="text-5xl md:text-7xl font-playfair font-bold mb-6 animate-fade-in">
             {t('home.welcomeHome')}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto fade-in">
+          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
             {t('home.welcomeText')}
           </p>
+          <Link to="/give">
+            <Button size="lg" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <Heart className="h-5 w-5 mr-2" />
+              {t('nav.give')}
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -108,7 +116,7 @@ const Index = () => {
               <img 
                 src={pastorSpeaking} 
                 alt="Pastor speaking" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
               />
               <div className="absolute -bottom-6 -left-6 p-6 bg-card rounded-xl shadow-lg border">
                 <div className="flex items-center space-x-3">
@@ -184,6 +192,53 @@ const Index = () => {
                 </CardContent>
               </Card>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Preview */}
+      <section className="py-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
+              {t('home.galleryTitle') || 'Our Gallery'}
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              {t('home.galleryText') || 'Moments that inspire faith and build community'}
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
+              <img 
+                src={communityPrayer} 
+                alt="Church community" 
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
+              <img 
+                src={pastorSpeaking} 
+                alt="Worship service" 
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
+              <img 
+                src={sermonImage} 
+                alt="Church gathering" 
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <Link to="/gallery">
+              <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                <ImageIcon className="h-5 w-5 mr-2" />
+                {t('home.viewAllGallery') || 'View All Gallery'}
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

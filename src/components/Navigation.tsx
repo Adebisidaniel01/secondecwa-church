@@ -43,18 +43,18 @@ const Navigation = () => {
               <h1 className="text-xs sm:text-xl font-playfair font-bold text-foreground group-hover:text-primary smooth-transition leading-tight truncate">
                 Second ECWA Church 
               </h1>
-              <p className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">{t('nav.tagline')}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{t('nav.tagline')}</p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center gap-1 lg:gap-2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium smooth-transition",
+                  "px-2 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium smooth-transition whitespace-nowrap",
                   isActive(item.path)
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
@@ -63,14 +63,14 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="flex items-center space-x-3 ml-4">
+            <div className="flex items-center gap-2 lg:gap-3 ml-2 lg:ml-4">
               <LanguageToggle />
               <ThemeToggle />
-              <SocialLinks variant="header" size="sm" className="hidden lg:flex" />
+              <SocialLinks variant="header" size="sm" className="hidden xl:flex" />
               <Link to="/give">
-                <Button variant="default" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90">
-                  <Heart className="h-4 w-4 mr-2" />
-                  {t('nav.give')}
+                <Button variant="default" size="sm" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90 whitespace-nowrap">
+                  <Heart className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
+                  <span className="text-xs lg:text-sm">{t('nav.give')}</span>
                 </Button>
               </Link>
             </div>

@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
-import ministriesHeader from "@/assets/ministries-header.jpg";
+import ministriesHeader from "@/assets/pastor-speaking.jpg";
 
 const Ministries = () => {
   const { toast } = useToast();

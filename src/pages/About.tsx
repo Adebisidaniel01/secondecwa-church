@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 import communityImage from "@/assets/community-prayer.jpg";
 import reverendAyebulu from "@/assets/reverend-ayebulu.jpg";
 import pastorAlabi from "@/assets/pastor-alabi.jpg";
-import aboutHeader from "@/assets/about-header.jpg";
+import aboutHeader from "@/assets/pastor-speaking.jpg";
 
 const About = () => {
   const values = [
@@ -73,7 +73,7 @@ const About = () => {
               About Second ECWA
             </h1>
             <p className="text-xl text-white/90 leading-relaxed">
-              For over two decades, we've been a place where faith flourishes, 
+              The church was established in 1973. We've been a place where faith flourishes, 
               community thrives, and lives are transformed by the love of Jesus Christ.
             </p>
           </div>

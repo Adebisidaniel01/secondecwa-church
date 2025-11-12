@@ -109,12 +109,6 @@ const Navigation = () => {
               <div className="mx-4 mt-4 space-y-4">
                 <LanguageToggle />
                 <ThemeToggle />
-                <Link to="/give" onClick={() => setIsOpen(false)} className="w-full">
-                  <Button variant="default" className="w-full sanctuary-gradient text-sanctuary-foreground">
-                    <Heart className="h-4 w-4 mr-2" />
-                    {t('nav.give')}
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>

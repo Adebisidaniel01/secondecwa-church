@@ -33,7 +33,7 @@ const Index = () => {
             {t('home.welcomeHome')}
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            {t('home.welcomeText')}
+            Where faith grows, hearts are healed, and lives are transformed through God's word, Love and Community.
           </p>
           <Link to="/give">
             <Button size="lg" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90 animate-fade-in" style={{ animationDelay: '0.4s' }}>
@@ -56,15 +56,26 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="text-center p-6 church-shadow hover:shadow-lg smooth-transition">
               <CardContent className="space-y-4">
                 <div className="p-4 rounded-full sanctuary-gradient w-fit mx-auto">
                   <Clock className="h-8 w-8 text-sanctuary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold">{t('home.sundayWorship')}</h3>
-                <p className="text-lg font-playfair font-bold text-primary">{t('home.englishService')}</p>
-                <p className="text-lg font-playfair font-bold text-primary">{t('home.yorubaService')}</p>
+                <h3 className="text-xl font-semibold">Sunday Worship</h3>
+                <p className="text-lg font-playfair font-bold text-primary">English: 8:00AM - 10:00AM</p>
+                <p className="text-lg font-playfair font-bold text-primary">Yoruba: 10:00AM - 12:00PM</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 church-shadow hover:shadow-lg smooth-transition">
+              <CardContent className="space-y-4">
+                <div className="p-4 rounded-full sanctuary-gradient w-fit mx-auto">
+                  <BookOpen className="h-8 w-8 text-sanctuary-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">Sunday School</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Yoruba: 9:00AM - 10:00AM</p>
+                <p className="text-lg font-playfair font-bold text-primary">English: 10:00AM - 11:00AM</p>
               </CardContent>
             </Card>
 
@@ -73,9 +84,9 @@ const Index = () => {
                 <div className="p-4 rounded-full blessing-gradient w-fit mx-auto">
                   <BookOpen className="h-8 w-8 text-blessing-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold">{t('home.bibleStudy')}</h3>
-                <p className="text-2xl font-playfair font-bold text-primary">{t('home.bibleStudyTime')}</p>
-                <p className="text-muted-foreground">{t('home.bibleStudyText')}</p>
+                <h3 className="text-xl font-semibold">Bible Study</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Wednesday: 5:00PM - 6:00PM</p>
+                <p className="text-muted-foreground">Deep dive into God's Word together</p>
               </CardContent>
             </Card>
 
@@ -84,9 +95,31 @@ const Index = () => {
                 <div className="p-4 rounded-full worship-gradient w-fit mx-auto">
                   <Users className="h-8 w-8 text-worship-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold">{t('home.youthGroup')}</h3>
-                <p className="text-2xl font-playfair font-bold text-primary">{t('home.youthGroupTime')}</p>
-                <p className="text-muted-foreground">{t('home.youthGroupText')}</p>
+                <h3 className="text-xl font-semibold">Youth Fellowship</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Friday: 5:00PM</p>
+                <p className="text-muted-foreground">Fun, faith, and fellowship</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 church-shadow hover:shadow-lg smooth-transition">
+              <CardContent className="space-y-4">
+                <div className="p-4 rounded-full sanctuary-gradient w-fit mx-auto">
+                  <Heart className="h-8 w-8 text-sanctuary-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">Prayer Meeting</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Thursday: 5:00PM - 6:00PM</p>
+                <p className="text-muted-foreground">Join us in prayer</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 worship-shadow hover:shadow-lg smooth-transition">
+              <CardContent className="space-y-4">
+                <div className="p-4 rounded-full worship-gradient w-fit mx-auto">
+                  <Clock className="h-8 w-8 text-worship-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">Special Services</h3>
+                <p className="text-sm font-playfair font-bold text-primary">Night Vigil: Last Fridays 11:00PM</p>
+                <p className="text-sm font-playfair font-bold text-primary">Begin Month with God: 1st 6:00AM - 7:00AM</p>
               </CardContent>
             </Card>
           </div>

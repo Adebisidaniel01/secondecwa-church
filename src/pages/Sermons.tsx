@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import sermonImage from "@/assets/sermon-scene.jpg";
-import sermonsHeader from "@/assets/sermons-header.jpg";
+import sermonsHeader from "@/assets/community-prayer.jpg";
 
 const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");

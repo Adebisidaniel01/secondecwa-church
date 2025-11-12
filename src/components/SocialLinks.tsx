@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Youtube } from "lucide-react";
+import { Facebook, Instagram, Youtube, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SocialLinksProps {
@@ -29,6 +29,13 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
       icon: Youtube,
       color: "text-[#FF0000]",
       hoverColor: "hover:text-[#FF0000]/80"
+    },
+    {
+      name: "TikTok",
+      url: "https://vm.tiktok.com/ZSH3Nn6oju6Y8-AtgCZ/",
+      icon: Music,
+      color: "text-[#000000] dark:text-[#FFFFFF]",
+      hoverColor: "hover:text-[#000000]/80 dark:hover:text-[#FFFFFF]/80"
     }
   ];
 

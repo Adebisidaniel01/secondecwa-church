@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import SocialLinks from "@/components/SocialLinks";
-import eventsHeader from "@/assets/events-header.jpg";
+import eventsHeader from "@/assets/sermon-scene.jpg";
 
 const Events = () => {
   const { toast } = useToast();
@@ -136,7 +136,7 @@ const Events = () => {
       time: "Friday 6:00 PM - Sunday 3:00 PM",
       location: "Main Auditorium",
       category: "Youth",
-      description: "A weekend of fun, fellowship, and spiritual growth for our youth. Activities include worship, games, workshops, and outdoor adventures.",
+      description: "A weekend of fun, fellowship, and spiritual growth. Activities include worship, games, workshops, and outdoor adventures.",
       capacity: 40,
       registered: 28,
       featured: false,

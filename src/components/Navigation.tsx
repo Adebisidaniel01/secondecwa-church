@@ -22,6 +22,7 @@ const Navigation = () => {
     { name: t('nav.events'), path: "/events" },
     { name: t('nav.ministries'), path: "/ministries" },
     { name: t('nav.contact'), path: "/contact" },
+    { name: "Admin", path: "/admin" },
   ];
 
   const isActive = (path: string) => location.pathname === path;

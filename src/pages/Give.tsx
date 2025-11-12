@@ -2,6 +2,7 @@ import { CreditCard, Building, Users, Heart, Gift } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
+import giveHeader from "@/assets/community-prayer.jpg";
 
 const Give = () => {
   const donationMethods = [
@@ -52,13 +53,19 @@ const Give = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${giveHeader})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-white mb-6">
               Give with Purpose
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               Your generosity helps us fulfill our mission of spreading God's love 
               and serving our community with compassion and care.
             </p>

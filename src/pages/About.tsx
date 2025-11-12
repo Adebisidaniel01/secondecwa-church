@@ -73,7 +73,7 @@ const About = () => {
               About Second ECWA
             </h1>
             <p className="text-xl text-white/90 leading-relaxed">
-              The church was established in 1973. We've been a place where faith flourishes, 
+              The church was founded in 1973. We've been a place where faith flourishes, 
               community thrives, and lives are transformed by the love of Jesus Christ.
             </p>
           </div>

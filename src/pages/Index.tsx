@@ -229,52 +229,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Preview */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
-              {t('home.galleryTitle') || 'Our Gallery'}
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              {t('home.galleryText') || 'Moments that inspire faith and build community'}
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
-              <img 
-                src={communityPrayer} 
-                alt="Church community" 
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
-              <img 
-                src={pastorSpeaking} 
-                alt="Worship service" 
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
-              <img 
-                src={sermonImage} 
-                alt="Church gathering" 
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <Link to="/gallery">
-              <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                <ImageIcon className="h-5 w-5 mr-2" />
-                {t('home.viewAllGallery') || 'View All Gallery'}
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Featured Sermon */}
       <section className="py-20">

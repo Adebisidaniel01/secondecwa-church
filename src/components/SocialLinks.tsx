@@ -1,5 +1,6 @@
-import { Facebook, Instagram, Youtube, Music } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import TikTokIcon from "@/components/icons/TikTokIcon";
 
 interface SocialLinksProps {
   variant?: "header" | "footer" | "contact";
@@ -33,7 +34,7 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
     {
       name: "TikTok",
       url: "https://vm.tiktok.com/ZSH3Nn6oju6Y8-AtgCZ/",
-      icon: Music,
+      icon: TikTokIcon,
       color: "text-[#000000] dark:text-[#FFFFFF]",
       hoverColor: "hover:text-[#000000]/80 dark:hover:text-[#FFFFFF]/80"
     }
@@ -70,6 +71,7 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
     <div className={`flex space-x-3 ${className}`}>
       {socialLinks.map((social) => {
         const Icon = social.icon;
+        const isTikTok = social.name === "TikTok";
         return (
           <a
             key={social.name}
@@ -79,10 +81,14 @@ const SocialLinks = ({ variant = "footer", size = "md", className = "" }: Social
             className={`group inline-flex items-center justify-center ${getButtonSize()} ${getVariantStyles()} rounded-md cursor-pointer relative z-10`}
             aria-label={`Follow us on ${social.name}`}
           >
-            <Icon
-              className={`${getIconSize()} transition-all duration-300 ${social.color} ${social.hoverColor} pointer-events-none`}
-              strokeWidth={2.5}
-            />
+            {isTikTok ? (
+              <Icon className={`${getIconSize()} transition-all duration-300 ${social.color} ${social.hoverColor} pointer-events-none`} />
+            ) : (
+              <Icon
+                className={`${getIconSize()} transition-all duration-300 ${social.color} ${social.hoverColor} pointer-events-none`}
+                strokeWidth={2.5}
+              />
+            )}
           </a>
         );
       })}

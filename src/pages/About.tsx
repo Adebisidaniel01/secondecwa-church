@@ -39,7 +39,7 @@ const About = () => {
     },
     {
       name: "Reverend Oluwafemi Adeyemi",
-      role: "Worship Director",
+      role: "Associate Minister",
       description: "Inspiring hearts through music and creating meaningful worship experiences.",
       photoUrl: null
     },

@@ -21,6 +21,7 @@ const Navigation = () => {
     { name: t('nav.videos'), path: "/videos" },
     { name: t('nav.events'), path: "/events" },
     { name: t('nav.ministries'), path: "/ministries" },
+    { name: "Gallery", path: "/gallery" },
     { name: t('nav.contact'), path: "/contact" },
     { name: "Admin", path: "/admin" },
   ];

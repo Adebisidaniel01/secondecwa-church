@@ -6,16 +6,24 @@ const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="smooth-transition"
-    >
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
+      <Button
+        variant={theme === "light" ? "default" : "ghost"}
+        size="sm"
+        onClick={() => setTheme("light")}
+        className="smooth-transition"
+      >
+        <Sun className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={theme === "dark" ? "default" : "ghost"}
+        size="sm"
+        onClick={() => setTheme("dark")}
+        className="smooth-transition"
+      >
+        <Moon className="h-4 w-4" />
+      </Button>
+    </div>
   );
 };
 

@@ -1,23 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages } from "lucide-react";
 
 const LanguageToggle = () => {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => setLanguage(language === 'en' ? 'yo' : 'en')}
-      className="flex items-center gap-2"
-      aria-label="Toggle language"
-    >
-      <Languages className="h-4 w-4" />
-      <span className="text-xs font-medium">
-        {language === 'en' ? 'Yorùbá' : 'English'}
-      </span>
-    </Button>
+    <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
+      <Button
+        variant={language === "en" ? "default" : "ghost"}
+        size="sm"
+        onClick={() => setLanguage("en")}
+        className="smooth-transition text-xs"
+      >
+        EN
+      </Button>
+      <Button
+        variant={language === "yo" ? "default" : "ghost"}
+        size="sm"
+        onClick={() => setLanguage("yo")}
+        className="smooth-transition text-xs"
+      >
+        YO
+      </Button>
+    </div>
   );
 };
 

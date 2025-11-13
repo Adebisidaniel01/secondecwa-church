@@ -146,10 +146,10 @@ const Index = () => {
               </Button>
             </div>
             <div className="relative">
-              <img 
+            <img 
                 src={pastorSpeaking} 
                 alt="Pastor speaking" 
-                className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
+                className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] md:max-h-[900px] object-cover"
               />
               <div className="absolute -bottom-6 -left-6 p-6 bg-card rounded-xl shadow-lg border">
                 <div className="flex items-center space-x-3">

@@ -45,7 +45,7 @@ const About = () => {
     },
     {
       name: "Pastor Samuel Oyegunle",
-      role: "Youth Pastor",
+      role: "Associate Pastor",
       description: "Empowering the next generation to discover their purpose in Christ.",
       photoUrl: null
     },

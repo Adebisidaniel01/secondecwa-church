@@ -76,32 +76,50 @@ const Navigation = () => {
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
+              className="relative"
             >
-              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <Menu className={cn(
+                "h-5 w-5 absolute transition-all duration-300",
+                isOpen ? "rotate-90 opacity-0 scale-0" : "rotate-0 opacity-100 scale-100"
+              )} />
+              <X className={cn(
+                "h-5 w-5 absolute transition-all duration-300",
+                isOpen ? "rotate-0 opacity-100 scale-100" : "-rotate-90 opacity-0 scale-0"
+              )} />
             </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 border-t border-border mt-2">
+          <div className="md:hidden pb-4 border-t border-border mt-2 animate-fade-in overflow-hidden">
             <div className="flex flex-col space-y-2 pt-4">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "px-4 py-3 rounded-lg text-sm font-medium smooth-transition",
+                    "px-4 py-3 rounded-lg text-sm font-medium smooth-transition animate-fade-in",
                     isActive(item.path)
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                   )}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                    animationFillMode: 'both'
+                  }}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="mx-4 mt-4">
+              <div 
+                className="mx-4 mt-4 animate-fade-in" 
+                style={{
+                  animationDelay: `${navItems.length * 50}ms`,
+                  animationFillMode: 'both'
+                }}
+              >
                 <div className="flex items-center justify-center gap-3">
                   <LanguageToggle />
                   <ThemeToggle />

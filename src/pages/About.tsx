@@ -90,7 +90,7 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Second ECWA was founded in 1974 by a small group of missionaries who shared 
+                  Second ECWA was founded in 1973 by a small group of missionaries who shared 
                   a vision of creating a church that would be the heart of the community. What started 
                   as frequent gatherings in a room has grown into a vibrant congregation of over 
                   500 members.

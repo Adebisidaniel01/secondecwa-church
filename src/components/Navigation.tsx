@@ -66,12 +66,6 @@ const Navigation = () => {
             <div className="flex items-center gap-2 lg:gap-3 ml-2 lg:ml-4">
               <LanguageToggle />
               <ThemeToggle />
-              <Link to="/give">
-                <Button variant="default" size="sm" className="sanctuary-gradient text-sanctuary-foreground hover:opacity-90 whitespace-nowrap">
-                  <Heart className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-                  <span className="text-xs lg:text-sm">{t('nav.give')}</span>
-                </Button>
-              </Link>
             </div>
           </div>
 

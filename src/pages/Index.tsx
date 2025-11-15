@@ -112,10 +112,32 @@ const Index = () => {
               </CardContent>
             </Card>
 
+            <Card className="text-center p-6 blessing-shadow hover:shadow-lg smooth-transition">
+              <CardContent className="space-y-4">
+                <div className="p-4 rounded-full blessing-gradient w-fit mx-auto">
+                  <Users className="h-8 w-8 text-blessing-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">Gospel Team Meeting</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Tuesday: 5:00PM - 6:00PM</p>
+                <p className="text-muted-foreground">Evangelism and outreach</p>
+              </CardContent>
+            </Card>
+
             <Card className="text-center p-6 worship-shadow hover:shadow-lg smooth-transition">
               <CardContent className="space-y-4">
                 <div className="p-4 rounded-full worship-gradient w-fit mx-auto">
-                  <Clock className="h-8 w-8 text-worship-foreground" />
+                  <MapPin className="h-8 w-8 text-worship-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">Sanctuary Unit Meeting</h3>
+                <p className="text-lg font-playfair font-bold text-primary">Saturday: 7:00AM</p>
+                <p className="text-muted-foreground">Church cleaning & fellowship</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 church-shadow hover:shadow-lg smooth-transition">
+              <CardContent className="space-y-4">
+                <div className="p-4 rounded-full sanctuary-gradient w-fit mx-auto">
+                  <Clock className="h-8 w-8 text-sanctuary-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold">Special Services</h3>
                 <p className="text-sm font-playfair font-bold text-primary">Night Vigil: Last Fridays 11:00PM</p>

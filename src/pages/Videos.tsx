@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import VideoGallery from "@/components/VideoGallery";
-import videosHeader from "@/assets/sermon-scene.jpg";
+import videosHeader from "@/assets/videos-header.jpg";
 
 const Videos = () => {
   return (

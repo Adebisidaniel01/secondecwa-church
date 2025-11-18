@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import SocialLinks from "@/components/SocialLinks";
-import eventsHeader from "@/assets/sermon-scene.jpg";
+import eventsHeader from "@/assets/events-header.jpg";
 
 const Events = () => {
   const { toast } = useToast();

@@ -146,17 +146,17 @@ serve(async (req) => {
         .getPublicUrl(filePath);
 
       // Insert photo record
+      const insertData: Database['public']['Tables']['photos']['Insert'] = {
+        title,
+        description,
+        file_url: publicUrl,
+        category: category || 'general',
+        is_featured: is_featured || false
+      };
       const { data: photoData, error: photoError } = await supabaseClient
         .from('photos')
-        .insert({
-          title,
-          description,
-          file_url: publicUrl,
-          category: category || 'general',
-          is_featured: is_featured || false
-        })
+        .insert(insertData)
         .select()
-        .returns<Database['public']['Tables']['photos']['Row']>()
         .single();
 
       if (photoError) {
@@ -181,8 +181,7 @@ serve(async (req) => {
         .from('photos')
         .select('file_url')
         .eq('id', photoId)
-        .returns<{ file_url: string }>()
-        .single();
+        .single() as { data: { file_url: string } | null; error: unknown };
 
       if (fetchError || !photoData) {
         return new Response(
